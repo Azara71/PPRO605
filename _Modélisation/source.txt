@@ -1,0 +1,15 @@
+###################FICHIER REGROUPANT LES SOURCES UTILISÉS ET LES LIENS UTILES###################
+
+
+
+##############################################################################
+
+LARAVEL :
+Playlist apprendre Laravel 8 NordCoders:
+https://www.youtube.com/watch?v=EaSgftRyvAM&list=PLeeuvNW2FHVj4vHJRj9UDeDsXshHlnHJk&ab_channel=NordCoders
+
+CSS :
+https://www.youtube.com/c/BenjaminCode
+
+https://codepen.io/pen/ (Rendu HTML css JS en ligne)
+###############################################################################
