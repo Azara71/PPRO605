@@ -12,4 +12,9 @@ CSS :
 https://www.youtube.com/c/BenjaminCode
 
 https://codepen.io/pen/ (Rendu HTML css JS en ligne)
+
+Aperçu couleur et ensemble de couleur (pré-css) : 
+https://material.io/resources/color/#!/?view.left=0&view.right=1
+générateur couleur hex
+https://coolors.co/e57a44-214f4b-8bbd8b-522a27-717ec3
 ###############################################################################
