@@ -1,0 +1,117 @@
+body{
+    margin:0%;
+    padding:0%;
+    background-color:#010c13;
+}
+.container{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+}
+.container_left{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.container_right{
+    position:absolute;
+    background: #010c13;
+    display:table;
+    left:50%;
+    top:15%;
+    width:45%;
+    height:45%;
+    z-index:-1;
+
+
+}
+.dialogue{
+    margin-top:20%;
+    text-align:center;
+    font-family: 'Libre Bodoni', serif;
+    font-size:30px;  
+    color:white;
+
+}
+.buttons{
+    width:100%;
+    height:40%;
+    display: flex;
+    flex-wrap: no-wrap;
+    justify-content: center;
+
+
+}
+.register{
+    display: table;
+    text-align:center;
+    color:white;
+    margin:auto;
+    transition:2s;
+
+}
+.connexion{      
+    display: table;
+   
+    text-align:center;
+    color:white;
+    margin:auto;
+}
+.texte_register:hover{
+    background-color:rgb(64, 154, 182);
+    transform: scale(1.3, 1.3);
+    cursor:pointer;
+    transition:2s;
+
+
+}
+.texte_connexion:hover{
+    background-color:rgb(64, 154, 182);
+    transform: scale(1.3, 1.3);
+    cursor:pointer;
+    transition:2s;
+}
+.texte_register{
+    border:solid 2px rgb(64, 154, 182);
+    border-radius: 30px;
+    width:150px;
+    height:50px;
+    display: table-cell;
+    vertical-align: middle;
+    text-decoration: none;/*Pour que le lien ne soit plus "souligné"...*/
+    color: white; 
+}
+.texte_connexion{
+    border:solid 2px rgb(64, 154, 182); /* 25.09 , 60.39,71.37 */
+    border-radius: 30px;
+    width:150px;
+    height:50px;
+    display: table-cell;
+    vertical-align: middle;
+    text-decoration: none;/*Pour que le lien ne soit plus "souligné"...*/
+
+}
+.texte_connexion:visited{
+    text-decoration: none;/*Pour que le lien ne soit plus "souligné"...*/
+    color:white;
+}
+.texte_register:visited{
+    text-decoration: none;/*Pour que le lien ne soit plus "souligné"...*/
+    color:white;
+}
+.logo{
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 30%;
+
+}
+.image_logo{
+    width:90%;
+    height:90%;
+    scale:0.8;
+    opacity:20%;
+}
+
