@@ -1,0 +1,36 @@
+body{
+    margin:0%;
+    padding:0%;
+    background-color:#010c13;
+
+}
+
+.container-item{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height:30%;
+    width:100%;
+    background-color:#010c13;
+}
+.item{
+    color:white;
+    margin: 20px;
+    text-align:center;
+    border: 1px solid rgb(64, 154, 182);
+    height:300px;
+    width:33%;
+}
+.item:hover{
+    cursor: pointer;
+}
+.container{ 
+    margin-top: 10vh; /* poussé de la moitié de hauteur de viewport */
+    height:30%;
+}
+a:link 
+{ 
+ text-decoration:none; 
+} 

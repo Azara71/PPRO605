@@ -22,3 +22,20 @@ Route::get('/accueil', function () {
 Route::get('/register', function () {
     return view('register');
 });
+Route::get('/connexion', function () {
+    return view('connexion');
+});
+Route::get('/main', function () {
+    return view('main');
+});
+Route::get('/contact', function () {
+    return view('contact');
+});
+Route::get('/info_perso', function () {
+    return view('info_perso');
+});
+Route::get('/mes_conventions', function () {
+    return view('mes_conventions');
+});
+
+

@@ -43,7 +43,6 @@ body{
     flex-wrap: no-wrap;
     justify-content: center;
 
-
 }
 .register{
     display: table;
@@ -55,7 +54,6 @@ body{
 }
 .connexion{      
     display: table;
-   
     text-align:center;
     color:white;
     margin:auto;
