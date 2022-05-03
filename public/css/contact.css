@@ -1,0 +1,47 @@
+textarea {
+    height:300px;
+    width:500px;   
+    display: block;
+    margin: 10;
+    border: 2px solid rgb(64, 154, 182);
+    border-radius: 0;
+    color: white;
+    background-color: transparent;
+    overflow: auto;
+    resize: none;
+    transition: transform 1s;
+    padding: 10px;
+    font: 20px/28px 'Open Sans', sans-serif;
+    letter-spacing: 1px;
+  }
+body{
+    margin:0%;
+    padding:0%;
+    background-color:#010c13;
+}
+.container{
+    display:flex;
+    flex-direction: column;
+    
+    justify-content:center;
+    align-items: center;
+    
+}
+.titre{
+    color:white;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius:20px;
+
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgb(64, 154, 182);
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }

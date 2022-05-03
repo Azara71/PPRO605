@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GlobalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,29 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/accueil', function () {
-    return view('accueil');
-});
-Route::get('/register', function () {
-    return view('register');
-});
-Route::get('/connexion', function () {
-    return view('connexion');
-});
-Route::get('/main', function () {
-    return view('main');
-});
-Route::get('/contact', function () {
-    return view('contact');
-});
-Route::get('/info_perso', function () {
-    return view('info_perso');
-});
-Route::get('/mes_conventions', function () {
-    return view('mes_conventions');
-});
+Route::get('/', [GlobalController::class,'accueil']);
+
+Route::get('/accueil', [GlobalController::class,'accueil']);
+
+Route::get('/register', [GlobalController::class,'register']);
+
+Route::get('/connexion', [GlobalController::class,'connexion']);
+
+Route::get('/main', [GlobalController::class,'main']);
+
+Route::get('/contact', [GlobalController::class,'contact']);
+
+Route::get('/info_perso', [GlobalController::class,'info_perso']);
+
+Route::get('/mes_conventions', [GlobalController::class,'mes_conventions']);
+
+Route::get('/mes_conventions/create', [GlobalController::class,'mes_conventions_create']);
 
 

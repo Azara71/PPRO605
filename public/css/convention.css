@@ -12,14 +12,13 @@ body{
     flex-wrap:wrap;
     justify-content:center;
     align-items: center;
-
+    
 
 }
 .convention{
     height:150px;
     width:75%;
     margin-top:20px;
-    background-color:#010c13;
     border: 1px solid rgb(64, 154, 182);
     color:white;
     border-radius:20px;
@@ -84,4 +83,25 @@ body{
     width:fit-content;
     margin:auto;
     margin-top:40px;    
+}
+
+.container_right{
+    position:absolute;
+    background: #010c13;
+    display:table;
+    left:50%;
+    top:15%;
+    width:45%;
+    height:45%;
+    z-index:-1;
+    opacity:10%;
+}
+.convention_plus{
+    cursor:pointer;
+    height:150px;
+    width:75%;
+    margin-top:20px;
+    border: 1px solid rgb(64, 154, 182);
+    color:white;
+    border-radius:20px;
 }
