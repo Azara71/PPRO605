@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Etudiant;
+
 
 
 class GlobalController extends Controller{
     // Controle de l'accueil
     public function accueil()
-    {
-        return view('accueil');
+    {  
+       // $test=Etudiant::all();
+        return view('accueil');//,compact('test'));
     }
 
     // Controle de l'enregistrement

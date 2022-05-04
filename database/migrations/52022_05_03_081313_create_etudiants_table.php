@@ -22,6 +22,8 @@ class CreateEtudiantsTable extends Migration
         });
     }
 
+
+
     /**
      * Reverse the migrations.
      *
