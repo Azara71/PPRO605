@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Etudiant;
+use App\Models\Convention;
 use App\Models\Travailleur;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -51,4 +52,9 @@ class User extends Authenticatable
     public function travailleur(){
         return $this->hasOne(Travailleur::class,'id');
     }
+    public function conventions(){ 
+        return $this->belongsToMany(Convention::class,'pivot_table_convention_user');
+    }
+    
+    
 }

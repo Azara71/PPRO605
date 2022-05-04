@@ -15,6 +15,7 @@
 <div class=container>
     <div class=container_left>
         <div class=dialogue>
+           
            Bienvenue,vous voici maintenant sur le portail de mise en place et de suivi de conventions de stages, afin de poursuivre, nous vous demanderons, de vous connecter.
         </div>
         <div class=buttons>

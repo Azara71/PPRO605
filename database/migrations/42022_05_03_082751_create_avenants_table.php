@@ -19,8 +19,8 @@ class CreateAvenantsTable extends Migration
             $table->Integer('etat_avenant');
             $table->date('date_debut');
             $table->date('date_fin');
-            $table->foreignId('procedure_id')->constrained(); // Laravel trouve automatiquement grâce à un alias l'id dans la table procedure.
-            $table->foreignId('convention_id')->constrained();
+            $table->foreignId('procedure_id')->constrained()->onDelete('cascade');; // Laravel trouve automatiquement grâce à un alias l'id dans la table procedure.
+            $table->foreignId('convention_id')->constrained()->onDelete('cascade');;
         });
     }
 

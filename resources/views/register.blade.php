@@ -8,6 +8,10 @@
 	</head>
 	<body>
 		<script type="text/javascript">
+
+
+
+
 			function cacher(entry_to_hide){
 				entry_to_hide.style.display="none";
 				var All = entry_to_hide.getElementsByTagName("input");
@@ -108,6 +112,9 @@
 				<div class="custom-select">
 				<select id="university_selection" required>
 					<option value="" class=opt>Choisissez une université...</option>
+					@foreach($univs as $univ)
+						<option value="{{$univ->nom_université}}">{{$univ->nom_université}}</option>
+					@endforeach
 					<option value="fac1">fac1</option>
 					<option value="fac2">fac2</option>
 					<option value="fac3">fac3</option><option value="fac4">fac4</option><option value="fac5">fac5</option>
@@ -119,6 +126,7 @@
 				<div class="custom-select">
 				<select id="ufr_selection" required>
 					<option value="" class=opt>Choisissez un UFR...</option>
+
 					<option value="fac1">UFR SCIENCES</option>
 					<option value="fac2">UFR TRUC</option>
 					<option value="fac3">UFRTRUC</option>

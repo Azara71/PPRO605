@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Faculte;
 use App\Models\Etudiant;
+use App\Models\Procedure;
+use App\Models\Université;
 
 
 
@@ -11,14 +14,16 @@ class GlobalController extends Controller{
     // Controle de l'accueil
     public function accueil()
     {  
-       // $test=Etudiant::all();
-        return view('accueil');//,compact('test'));
+        $test=Procedure::find(1);
+        return view('accueil',compact('test'));
     }
 
     // Controle de l'enregistrement
     public function register()
     {
-        return view('register');
+        $univs=Université::all();
+        $facs=Faculte::all();
+        return view('register',compact('univs','facs'));
     } 
     // Controle de la connexion
 
