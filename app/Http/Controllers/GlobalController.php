@@ -7,6 +7,7 @@ use App\Models\Faculte;
 use App\Models\Etudiant;
 use App\Models\Procedure;
 use App\Models\Université;
+use Illuminate\Http\Request;
 
 
 
@@ -25,6 +26,16 @@ class GlobalController extends Controller{
         $facs=Faculte::all();
         return view('register',compact('univs','facs'));
     } 
+    public function getFacs(Request $request)
+    {
+       $facs=Faculte::all();
+        
+        if (count($facs) > 0) {
+            return response()->json($facs);
+        }
+    }
+ 
+
     // Controle de la connexion
 
     public function connexion()

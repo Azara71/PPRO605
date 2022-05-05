@@ -19,6 +19,9 @@ Route::get('/', [GlobalController::class,'accueil']);
 Route::get('/accueil', [GlobalController::class,'accueil']);
 
 Route::get('/register', [GlobalController::class,'register']);
+Route::get('get-facs', [GlobalController::class, 'getFacs'])->name('getFacs');
+
+
 
 Route::get('/connexion', [GlobalController::class,'connexion']);
 

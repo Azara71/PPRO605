@@ -5,10 +5,46 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="<?php echo asset('css/register.css')?>" type="text/css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript">
 
+        $(document).ready(function () {
+            $('#university_selection').on('change', function () {
+                var universityId = this.value;
+                $('#fac').html('');
+                $.ajax({
+                    url: '{{ route('getFacs') }}?univ_id='+universityId,
+                    type: 'get',
+                    success: function (res) {
+                        $('#fac').html('<option value="">Selectionnez une faculté</option>');
+                        $.each(res, function (key, value) {
+                            $('#fac').append('<option value="' + value
+                                .id + '">' + value.nom_faculte + '</option>');
+                        });
+                    }
+                });
+            });
+		});
+
+		$(document).ready(function () {
+            $('#university_two_selection').on('change', function () {
+                var universityId = this.value;
+                $('#fac_two').html('');
+                $.ajax({
+                    url: '{{ route('getFacs') }}?univ_id='+universityId,
+                    type: 'get',
+                    success: function (res) {
+                        $('#fac_two').html('<option value="">Selectionnez une faculté</option>');
+                        $.each(res, function (key, value) {
+                            $('#fac_two').append('<option value="' + value
+                                .id + '">' + value.nom_faculte + '</option>');
+                        });
+                    }
+                });
+            });
+		});
 
 
 
@@ -34,6 +70,8 @@
 					catch (e) {
 					}
 				}
+				
+				
 			}
 			function apparaitre(entry_to_hide){
 				entry_to_hide.style.display="block";
@@ -99,6 +137,7 @@
 						Statut:
 					</div>
 					<!-- Choix du type d'utilisateur -->
+			
 			<div class=containerofradio>
 				<label for="etudiant" style="color:white">Etudiant</label>
 				<input type="radio" id="etudiant" name="statut" value="Etudiant" checked onclick="ShowHideDiv('etudiant')"/>
@@ -110,28 +149,21 @@
 				<div class=entry id="name">Université :</div>
 				
 				<div class="custom-select">
-				<select id="university_selection" required>
-					<option value="" class=opt>Choisissez une université...</option>
+				<select  id="university_selection" required>
+					<option value="">Choisissez une université...</option>
 					@foreach($univs as $univ)
-						<option value="{{$univ->nom_université}}">{{$univ->nom_université}}</option>
+						<option value="{{$univ->id}}">{{$univ->nom_université}}</option>
 					@endforeach
-					<option value="fac1">fac1</option>
-					<option value="fac2">fac2</option>
-					<option value="fac3">fac3</option><option value="fac4">fac4</option><option value="fac5">fac5</option>
+					
 				</select>
 				</div>
 
 				<div class=entry id="name">Faculté :</div>
 
 				<div class="custom-select">
-				<select id="ufr_selection" required>
+				<select id="fac" required>
 					<option value="" class=opt>Choisissez un UFR...</option>
-
-					<option value="fac1">UFR SCIENCES</option>
-					<option value="fac2">UFR TRUC</option>
-					<option value="fac3">UFRTRUC</option>
-					<option value="fac4">UFRR</option>
-					<option value="fac5">UFRR</option>
+				
 				</select>
 				</div>
 				<div class=entry id="name">Année :</div>
@@ -176,25 +208,22 @@
 				<div class=entry id="name">Université :</div>
 				
 				<div class="custom-select">
-				<select id="university_selection" required>
-					<option value="" class=opt>Choisissez une université...</option>
-					<option value="fac1">fac1</option>
-					<option value="fac2">fac2</option>
-					<option value="fac3">fac3</option><option value="fac4">fac4</option><option value="fac5">fac5</option>
+				<select  id="university_two_selection" required>
+					<option value="">Choisissez une université...</option>
+					@foreach($univs as $univ)
+						<option value="{{$univ->id}}">{{$univ->nom_université}}</option>
+					@endforeach
+					
 				</select>
 				</div>
+				<div class=entry id="name">Faculté :</div>
 
-				<div class=entry>Faculté :</div>
-					<div class="custom-select">
-						<select id="ufr_selection" required>
-							<option value="" class=opt>Choisissez un UFR...</option>
-							<option value="fac1">UFR SCIENCES</option>
-							<option value="fac2">UFR TRUC</option>
-							<option value="fac3">UFRTRUC</option>
-							<option value="fac4">UFRR</option>
-							<option value="fac5">UFRR</option>
-						</select>
-					</div>
+<div class="custom-select">
+<select id="fac_two" required>
+	<option value="" class=opt>Choisissez un UFR...</option>
+
+</select>
+</div>
 				<div class=entry>
 					Fonction occupée :
 				</div>
