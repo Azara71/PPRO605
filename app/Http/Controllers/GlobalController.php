@@ -23,12 +23,11 @@ class GlobalController extends Controller{
     public function register()
     {
         $univs=Université::all();
-        $facs=Faculte::all();
-        return view('register',compact('univs','facs'));
+        return view('register',compact('univs'));
     } 
     public function getFacs(Request $request)
     {
-       $facs=Faculte::all();
+       $facs=Faculte::where('université_id',$request->univ_id)->get(); // Recupération de toutes les facultés dont la clef étrangère est égale à univ_id, la clef donné par la requête Ajax.
         
         if (count($facs) > 0) {
             return response()->json($facs);

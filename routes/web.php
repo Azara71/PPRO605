@@ -19,7 +19,7 @@ Route::get('/', [GlobalController::class,'accueil']);
 Route::get('/accueil', [GlobalController::class,'accueil']);
 
 Route::get('/register', [GlobalController::class,'register']);
-Route::get('get-facs', [GlobalController::class, 'getFacs'])->name('getFacs');
+Route::get('get-facs', [GlobalController::class, 'getFacs'])->name('getFacs'); //Route permettant d'obtenir le selection dépendant , il prend l'url en get "get-facs" et return un json contenant les facultés liés à l'université choisit
 
 
 
