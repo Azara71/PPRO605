@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Faculte;
 use App\Models\Etudiant;
 use App\Models\Procedure;
+use App\Models\Entreprise;
 use App\Models\Université;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,8 @@ class GlobalController extends Controller{
     public function register()
     {
         $univs=Université::all();
-        return view('register',compact('univs'));
+        $entreprise=Entreprise::all();
+        return view('register',compact('univs','entreprise'));
     } 
     public function getFacs(Request $request)
     {

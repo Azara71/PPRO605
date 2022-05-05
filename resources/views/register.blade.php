@@ -190,11 +190,10 @@
 				<div class="custom-select">
 				<select id="entreprise_selection" required>
 					<option value="" class=opt>Choisissez une entreprise...</option>
-					<option value="fac1">ent1</option>
-					<option value="fac2">ent2</option>
-					<option value="fac3">ent3</option>
-					<option value="fac4">ent4</option>
-					<option value="fac5">ent5</option>
+					@foreach($entreprise as $entreprise)
+						<option value="{{$entreprise->id}}">{{$entreprise->nom_entreprise}} - {{$entreprise->num_siret}}</option>
+					@endforeach
+					
 				</select>
 				</div>
 				<div class=entry>

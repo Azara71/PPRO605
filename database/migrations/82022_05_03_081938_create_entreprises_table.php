@@ -17,7 +17,7 @@ class CreateEntreprisesTable extends Migration
             
             $table->id();
             $table->string('nom_entreprise');
-            $table->BigInteger('num_siret');
+            $table->string('num_siret',19);
             $table->string('adresse_entreprise');
             $table->timestamps();
         });
