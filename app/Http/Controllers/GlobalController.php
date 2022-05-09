@@ -13,7 +13,12 @@ use Illuminate\Http\Request;
 
 
 class GlobalController extends Controller{
-    // Controle de l'accueil
+    /*
+    * __construct retournant le middleware Auth, permettant de faire un redirect sur la page login
+    */
+    public function __construct(){
+        $this->middleware('auth')->except('register');
+    }
     public function accueil()
     {  
         $test=Procedure::find(1);
