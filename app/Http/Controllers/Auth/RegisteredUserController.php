@@ -85,12 +85,18 @@ class RegisteredUserController extends Controller
         if(strcmp($request->statut,'Entreprise')==0){ // Si c'est une entreprise, tu récupères le nom de l'entreprise, le job
             $request->validate([
                 'entreprise'=>['required'],
-                'fonction'=>['required','string','max:255'],
             ]);
 
+            if($request->fonction==NULL){
             $travailleur=Travailleur::create([
-                'job'=>$request->fonction,
+                'job'=>'non_renseigné',
             ]);
+            }
+            else{
+                $travailleur=Travailleur::create([
+                    'job'=>$request->fonction,
+                ]);
+            }
             $user = User::create([
                 'prenom'=> $request->prenom,
                 'nom' => $request->nom,

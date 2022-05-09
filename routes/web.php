@@ -34,8 +34,10 @@ Route::get('/main', [GlobalController::class,'main']);
 
 Route::get('/contact', [GlobalController::class,'contact']);
 
-Route::get('/info_perso', [GlobalController::class,'info_perso']);
+Route::get('/info_perso', [GlobalController::class,'info_perso'])->name('info_perso');
 Route::post('/modify',[GlobalController::class,'modify'])->name('modify');
+Route::get('/add_entreprise',[GlobalController::class,'add_entreprise'])->name('add_entreprise');
+Route::post('ajout_entreprise',[GlobalController::class,'ajout_entreprise'])->name('ajout_entreprise');
 
 Route::get('/mes_conventions', [GlobalController::class,'mes_conventions']);
 

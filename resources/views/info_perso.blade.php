@@ -26,8 +26,6 @@
 					<div class=saisie-champs>
 						<input type="text" placeholder="{{Auth::user()->prenom}}" name="prenom" >
 					</div>
-
-
 			</div>
 				<div class=champs>
 					<div class=texte-champs>
@@ -64,8 +62,51 @@
 				@endif
 
 				@if(Auth::user()->statut=='Entreprise')
-				{{Auth::user()->statut}}
+				@if(Auth::user()->travailleur->job!="non_renseigné")
+				<div class=champs>
+					<div class=texte-champs>
+						Entreprise :
+					</div>	
+					<div class=saisie-champs>
+						{{Auth::user()->travailleur->entreprises[0]->nom_entreprise}}
+					</div>
+				</div>	
+				<div class=champs>
+					<div class=texte-champs>
+						Job :
+					</div>	
+					<div class=saisie-champs>
+					{{Auth::user()->travailleur->job}}
+					</div>
+				</div>	
 				@endif
+				
+				@if(Auth::user()->travailleur->job=="non_renseigné")
+				<div class=champs>
+					<div class=texte-champs>
+						Choisissez une entreprise :
+					</div>	
+					<div class=saisie-champs>
+						
+					<select id="entreprise_selection" name="entreprise" onChange="change(this.value);">
+					@foreach($entreprise as $entreprise)
+						<option value="{{$entreprise->id}}">{{$entreprise->nom_entreprise}} - {{$entreprise->num_siret}}</option>
+					@endforeach
+					</select>
+					<a href="/add_entreprise" class="btn btn-primary">Ajoutez une entreprise...</a>
+				</div>
+				</div>	
+				<div class=champs>
+					<div class=texte-champs>
+						Choisissez un job :
+					</div>	
+					<div class=saisie-champs>
+						<input type="text" placeholder="Rentrer la fonction occupée au sein de l'entreprise." id="job" name="job" >
+					</div>
+				</div>	
+				@endif
+			@endif
+
 
 				@if(Auth::user()->statut=='Université')
 				<div class=champs>
@@ -75,10 +116,9 @@
 					<div class=saisie-champs>
 					{{Auth::user()->travailleur->job}}
 					</div>
-				</div>	
-					
+				</div>		
 				@endif
-				<button class=buttons type=submit">	<div class=button>
+				<button class=sub type=submit">	<div class=button>
 						Enregistrer
 						@include('svg.stylo')
 				</div>

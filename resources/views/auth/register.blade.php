@@ -35,6 +35,7 @@
                 });
             });
 		});
+
 			function cacher(entry_to_hide){
 				entry_to_hide.style.display="none";
 				var All = entry_to_hide.getElementsByTagName("input");
@@ -88,6 +89,19 @@
 					cacher(entry_to_hide);
 					var entry_to_appear=document.getElementById("saisie_université");
 					apparaitre(entry_to_appear);
+				}
+			}
+			function change(change){
+				if(change=="Aucune"){
+					var entry_to_hide = document.getElementById("saisie_fonction");
+					cacher(entry_to_hide);
+				
+					
+					console.log(change);
+				}
+				else{
+					var entry_to_hide = document.getElementById("saisie_fonction");
+					apparaitre(entry_to_hide);
 				}
 			}
 		</script>
@@ -191,19 +205,22 @@
 				<div class=entry id="name">Entreprise :</div>
 				
 				<div class="custom-select">
-				<select id="entreprise_selection" name="entreprise" >
+				<select id="entreprise_selection" name="entreprise" onChange="change(this.value);">
 					<option value="" class=opt>Choisissez une entreprise...</option>
 					@foreach($entreprise as $entreprise)
 						<option value="{{$entreprise->id}}">{{$entreprise->nom_entreprise}} - {{$entreprise->num_siret}}</option>
 					@endforeach
+					<option value="Aucune" class=opt >Mon entreprise ne figure pas dans la liste...</option>
+
 				</select>
 				</div>
+				<div id="saisie_fonction" >
 				<div class=entry>
 						Fonction occupée :
 					</div>
 					<input type="text" placeholder="Rentrer votre fonction" id="fonction" name="fonction" >
-			</div>
-				
+				</div>
+				</div>			
 				<!--Saisie visible que si université-->
 				<div id="saisie_université" style="display:none;">
 				<div class=entry id="name">Université :</div>

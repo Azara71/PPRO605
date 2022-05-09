@@ -57,24 +57,47 @@ class GlobalController extends Controller{
     // Controle de la page d'info_perso
 
     public function info_perso()
-    {
-        return view('info_perso');
+    {  
+        $entreprise=Entreprise::all();
+        return view('info_perso',compact('entreprise'));
     }
     public function modify(Request $request){
         
         $user = Auth::user();
         if($request->prenom!=NULL){
-            $user->prenom = $request->prenom;
+            $user->update(['prenom'=>$request->prenom]);
         }
         if($request->nom!=NULL){
-            $user->nom = $request->nom;
+            $user->update(['nom'=>$request->nom]);
         }
-      /*  $user->prenom=$request->prenom;
-        $user->mail=$request->mail;
-        $user->staut=$request->statut;*/
+        if($request->entreprise!=NULL){
+        $user->travailleur->entreprises()->detach(); //Detach all avant d'attacher la nouvelle entreprise
+        $entreprise_to_attach=Entreprise::find($request->entreprise);
+        $user->travailleur->entreprises()->attach($entreprise_to_attach);
+        }
+        
+        if($request->job!=NULL){
+            $user->travailleur->update(['job'=>$request->job]); 
+        }
         $user->save();
+         return redirect()->route('info_perso');
+    }
 
-        return view('info_perso');
+    public function add_entreprise(Request $request){
+        return view('add_entreprise');
+    }
+    public function ajout_entreprise(Request $request){
+        $request->validate([
+            'num_siret'=>['required'],
+            'nom_entreprise'=>['required','string','max:255'],
+            'adresse_entreprise'=>['required','string','max:255'],
+        ]);
+        $entreprise=Entreprise::create([
+            'num_siret'=>$request->num_siret,
+            'nom_entreprise'=>$request->nom_entreprise,
+            'adresse_entreprise'=>$request->adresse_entreprise,
+        ]);
+        return redirect()->route('info_perso');
     }
     // Controle de la page d'affichage des conventions
 
