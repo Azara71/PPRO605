@@ -15,7 +15,6 @@
 <div class=container>
     <div class=container_left>
         <div class=dialogue>
-           
            Bienvenue,vous voici maintenant sur le portail de mise en place et de suivi de conventions de stages, afin de poursuivre, nous vous demanderons, de vous connecter.
         </div>
         <div class=buttons>
@@ -25,7 +24,7 @@
                 </a>
             </div>
             <div class=connexion>
-                <a href="http://ppro605.test/connexion" class=texte_connexion>
+                <a href="http://ppro605.test/login" class=texte_connexion>
                     Se connecter
                 </a>
             </div>

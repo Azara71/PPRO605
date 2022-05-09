@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Etudiant;
 use App\Models\Convention;
+use App\Models\Université;
 use App\Models\Travailleur;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -21,9 +22,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nom',
+        'prenom',
         'email',
+        'statut',
         'password',
+        'etudiant_id',
+        'travailleur_id',
     ];
 
     /**

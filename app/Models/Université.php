@@ -18,6 +18,7 @@ class Université extends Model
     public function travailleur(){
         return $this->belongsToMany(Travailleur::class,'pivot_table_ent_trav_univ','université_id','travailleur_id');
     }
+    
     public function entreprises(){
         return $this->belongsToMany(Entreprise::class,'pivot_table_ent_trav_univ','université_id','entreprise_id');
     }

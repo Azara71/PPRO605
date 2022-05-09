@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\GlobalController;
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +40,10 @@ Route::get('/mes_conventions', [GlobalController::class,'mes_conventions']);
 
 Route::get('/mes_conventions/create', [GlobalController::class,'mes_conventions_create']);
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
+require __DIR__.'/auth.php';
+
+?>
