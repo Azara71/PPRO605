@@ -9,6 +9,7 @@ use App\Models\Procedure;
 use App\Models\Entreprise;
 use App\Models\Université;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -17,7 +18,7 @@ class GlobalController extends Controller{
     * __construct retournant le middleware Auth, permettant de faire un redirect sur la page login
     */
     public function __construct(){
-        $this->middleware('auth')->except('register');
+        $this->middleware('auth')->except(['accueil','getFacs']);
     }
     public function accueil()
     {  
@@ -57,6 +58,22 @@ class GlobalController extends Controller{
 
     public function info_perso()
     {
+        return view('info_perso');
+    }
+    public function modify(Request $request){
+        
+        $user = Auth::user();
+        if($request->prenom!=NULL){
+            $user->prenom = $request->prenom;
+        }
+        if($request->nom!=NULL){
+            $user->nom = $request->nom;
+        }
+      /*  $user->prenom=$request->prenom;
+        $user->mail=$request->mail;
+        $user->staut=$request->statut;*/
+        $user->save();
+
         return view('info_perso');
     }
     // Controle de la page d'affichage des conventions

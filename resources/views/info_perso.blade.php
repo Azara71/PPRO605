@@ -11,7 +11,8 @@
 	<body>
 
     @include('layout.navbar')
-
+	<form method="post" action="{{route('modify',Auth::user()->id)}}">
+	@csrf
 	<div class=container>
 		<div class=info>
 			<div class=titre>
@@ -23,7 +24,7 @@
 						Prénom :
 					</div>
 					<div class=saisie-champs>
-						Le prénom
+						<input type="text" placeholder="{{Auth::user()->prenom}}" name="prenom" >
 					</div>
 
 
@@ -33,48 +34,56 @@
 						Nom :
 					</div>
 					<div class=saisie-champs>
-						Le nom
+					<input type="text" placeholder="{{Auth::user()->nom}}" name="nom" >
 					</div>
 				</div>
 
-				<div class=champs>
-					<div class=texte-champs>
-						Nom utilisateur:
-					</div>			
-					<div class=saisie-champs>
-						Le nom utilisateur
-					</div>
-				</div>
+				
 				<div class=champs>
 				<div class=texte-champs>
 						Mail:
 				</div>	
 				<div class=saisie-champs>
-						Le mail
+					{{Auth::user()->email}}
 				</div>		
 				</div>
-				<div class=champs>
-				<div class=texte-champs>
-						Password :
-				</div>
-				<div class=saisie-champs>
-						Le mot de passe
-				</div>			
-				</div>
+		
 				
 				<div class=champs>
 					<div class=texte-champs>
 						Statut :
 					</div>	
 					<div class=saisie-champs>
-						Le statut
+					{{Auth::user()->statut}}
+
 				</div>	
 				</div>
-				<div class=buttons onclick="location.href='info_perso'">
-					<div class=button>
-						Editer
-						@include('svg.stylo')
+
+				@if(Auth::user()->statut=='Etudiant')
+				{{Auth::user()->statut}}
+				@endif
+
+				@if(Auth::user()->statut=='Entreprise')
+				{{Auth::user()->statut}}
+				@endif
+
+				@if(Auth::user()->statut=='Université')
+				<div class=champs>
+					<div class=texte-champs>
+						Job :
+					</div>	
+					<div class=saisie-champs>
+					{{Auth::user()->travailleur->job}}
 					</div>
+				</div>	
+					
+				@endif
+				<button class=buttons type=submit">	<div class=button>
+						Enregistrer
+						@include('svg.stylo')
+				</div>
+				</button
+				
 					</div>		
 			
 
@@ -82,6 +91,7 @@
 
 		</div>
 	</div>
+</form>
 	@include('layout.logo')
 
 

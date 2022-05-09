@@ -55,7 +55,7 @@ class User extends Authenticatable
         return $this->hasOne(Etudiant::class,'id');
     }
     public function travailleur(){
-        return $this->hasOne(Travailleur::class,'id');
+        return $this->belongsTo(Travailleur::class,'travailleur_id','id');
     }
     public function conventions(){ 
         return $this->belongsToMany(Convention::class,'pivot_table_convention_user');

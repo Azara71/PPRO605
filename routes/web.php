@@ -35,6 +35,7 @@ Route::get('/main', [GlobalController::class,'main']);
 Route::get('/contact', [GlobalController::class,'contact']);
 
 Route::get('/info_perso', [GlobalController::class,'info_perso']);
+Route::post('/modify',[GlobalController::class,'modify'])->name('modify');
 
 Route::get('/mes_conventions', [GlobalController::class,'mes_conventions']);
 
