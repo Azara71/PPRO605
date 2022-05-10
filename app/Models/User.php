@@ -60,6 +60,6 @@ class User extends Authenticatable
     public function conventions(){ 
         return $this->belongsToMany(Convention::class,'pivot_table_convention_user');
     }
-    
+  
     
 }

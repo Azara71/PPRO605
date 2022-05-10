@@ -35,6 +35,41 @@
                 });
             });
 		});
+		$(document).ready(function () {
+            $('#entreprise_selection').on('change', function () {
+                var entrepriseId = this.value;
+                $('#job_selection').html('');
+                $.ajax({
+                    url: '{{ route('getJobs') }}?ent_id='+entrepriseId,
+                    type: 'get',
+                    success: function (res) {
+                        $('#job_selection').html('<option value="">Selectionnez un job</option>');
+                        $.each(res, function (key, value) {
+                            $('#job_selection').append('<option value="' + value
+                                .id + '">' + value.nom_job + '</option>');
+                        });
+                    }
+                });
+            });
+		});
+		$(document).ready(function () {
+            $('#fac_two').on('change', function () {
+                var facId = this.value;
+                $('#fonction_univ').html('');
+                $.ajax({
+                    url: '{{ route('getJobs') }}?fac_id='+facId,
+                    type: 'get',
+                    success: function (res) {
+                        $('#fonction_univ').html('<option value="">Selectionnez un job</option>');
+                        $.each(res, function (key, value) {
+                            $('#fonction_univ').append('<option value="' + value
+                                .id + '">' + value.nom_job + '</option>');
+                        });
+                    }
+                });
+            });
+		});
+
 
 			function cacher(entry_to_hide){
 				entry_to_hide.style.display="none";
@@ -89,19 +124,6 @@
 					cacher(entry_to_hide);
 					var entry_to_appear=document.getElementById("saisie_université");
 					apparaitre(entry_to_appear);
-				}
-			}
-			function change(change){
-				if(change=="Aucune"){
-					var entry_to_hide = document.getElementById("saisie_fonction");
-					cacher(entry_to_hide);
-				
-					
-					console.log(change);
-				}
-				else{
-					var entry_to_hide = document.getElementById("saisie_fonction");
-					apparaitre(entry_to_hide);
 				}
 			}
 		</script>
@@ -205,22 +227,25 @@
 				<div class=entry id="name">Entreprise :</div>
 				
 				<div class="custom-select">
-				<select id="entreprise_selection" name="entreprise" onChange="change(this.value);">
+				<select id="entreprise_selection" name="entreprise" >
 					<option value="" class=opt>Choisissez une entreprise...</option>
-					@foreach($entreprise as $entreprise)
-						<option value="{{$entreprise->id}}">{{$entreprise->nom_entreprise}} - {{$entreprise->num_siret}}</option>
+					@foreach($entreprise as $ent)
+						<option value="{{$ent->id}}">{{$ent->nom_entreprise}} - {{$ent->num_siret}}</option>
 					@endforeach
 					<option value="Aucune" class=opt >Mon entreprise ne figure pas dans la liste...</option>
-
 				</select>
 				</div>
-				<div id="saisie_fonction" >
-				<div class=entry>
-						Fonction occupée :
-					</div>
-					<input type="text" placeholder="Rentrer votre fonction" id="fonction" name="fonction" >
+
+				<div class=entry id="name">Job :</div>
+				<div class="custom-select">
+				<select id="job_selection" name="fonction">
+					<option value="" class=opt>Choisissez une entreprise...</option>
+					
+				
+				</select>
 				</div>
-				</div>			
+			</div>
+
 				<!--Saisie visible que si université-->
 				<div id="saisie_université" style="display:none;">
 				<div class=entry id="name">Université :</div>
@@ -242,12 +267,14 @@
 
 </select>
 </div>
-				<div class=entry>
-					Fonction occupée :
-				</div>
-				<input type="text" placeholder="Rentrer la fonction occupée au sein de l'entreprise." id="fonction_université" name="fonction_univ" >
-				</div>
+<div class="custom-select">
+<div class=entry >Job :</div>
 
+<select id="fonction_univ" name="fonction_univ" >
+	<option value="" class=opt>Choisissez un job</option>
+
+</select>
+</div>
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}

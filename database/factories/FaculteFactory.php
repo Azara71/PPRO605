@@ -17,7 +17,7 @@ class FaculteFactory extends Factory
             'nom_faculte'=>$this->faker->company(),
             'adresse_faculte'=>$this->faker->streetAddress(),
             'created_at'=>now(),
-            'université_id'=>rand(1,4),
+            'université_id'=>rand(1,3),
         ];
     }
 }

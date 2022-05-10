@@ -86,17 +86,21 @@ class RegisteredUserController extends Controller
             $request->validate([
                 'entreprise'=>['required'],
             ]);
+            if('entreprise'=='Aucune'){
 
-            if($request->fonction==NULL){
-            $travailleur=Travailleur::create([
-                'job'=>'non_renseigné',
-            ]);
+                $travailleur=Travailleur::create([
+                    'job_id'=>'1',
+                ]);
+            
             }
             else{
                 $travailleur=Travailleur::create([
-                    'job'=>$request->fonction,
+                    'job_id'=>$request->fonction,
                 ]);
+            
             }
+           
+               
             $user = User::create([
                 'prenom'=> $request->prenom,
                 'nom' => $request->nom,
@@ -117,7 +121,7 @@ class RegisteredUserController extends Controller
                 'fonction_univ'=>['required','string','max:255'],
             ]);
             $travailleur=Travailleur::create([
-                'job'=>$request->fonction_univ,
+                'job_id'=>$request->fonction_univ,
             ]);
             $user=User::create([
                 'prenom'=> $request->prenom,

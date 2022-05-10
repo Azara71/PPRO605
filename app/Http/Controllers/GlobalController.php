@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use App\Models\User;
 use App\Models\Faculte;
 use App\Models\Etudiant;
@@ -9,6 +10,7 @@ use App\Models\Procedure;
 use App\Models\Entreprise;
 use App\Models\Université;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -18,7 +20,7 @@ class GlobalController extends Controller{
     * __construct retournant le middleware Auth, permettant de faire un redirect sur la page login
     */
     public function __construct(){
-        $this->middleware('auth')->except(['accueil','getFacs']);
+        $this->middleware('auth')->except(['accueil','getFacs','getJobs']);
     }
     public function accueil()
     {  
@@ -31,16 +33,42 @@ class GlobalController extends Controller{
     {
         $univs=Université::all();
         $entreprise=Entreprise::all();
-        return view('register',compact('univs','entreprise'));
+        $jobs=Job::all();
+        return view('register',compact('univs','entreprise','jobs'));
     } 
     public function getFacs(Request $request)
     {
        $facs=Faculte::where('université_id',$request->univ_id)->get(); // Recupération de toutes les facultés dont la clef étrangère est égale à univ_id, la clef donné par la requête Ajax.
         
         if (count($facs) > 0) {
-            return response()->json($facs);
+            return response()->json($facs); // EVITE ERROR 500
         }
     }
+    public function getJobs(Request $request)
+    {  if($request->ent_id>0){
+        $jobs=DB::table('jobs')
+        ->join('pivot_table_ent_fac_job','jobs.id','=','pivot_table_ent_fac_job.job_id')
+        ->join('entreprises','pivot_table_ent_fac_job.entreprise_id','=','entreprises.id')
+        ->where('entreprises.id','=',$request->ent_id)
+        ->get();
+        if(count($jobs)>0)
+        {        
+            return response()->json($jobs);
+        }
+    }
+    elseif($request->fac_id>0){
+        $jobs=DB::table('jobs')
+        ->join('pivot_table_ent_fac_job','jobs.id','=','pivot_table_ent_fac_job.job_id')
+        ->join('facultes','pivot_table_ent_fac_job.entreprise_id','=','facultes.id')
+        ->where('facultes.id','=',$request->fac_id)
+        ->get();
+        if(count($jobs)>0)
+        {        
+            return response()->json($jobs);
+        }
+    }
+    }
+
  
 
     // Controle de la connexion
@@ -57,7 +85,7 @@ class GlobalController extends Controller{
     // Controle de la page d'info_perso
 
     public function info_perso()
-    {  
+    {   
         $entreprise=Entreprise::all();
         return view('info_perso',compact('entreprise'));
     }
@@ -77,7 +105,9 @@ class GlobalController extends Controller{
         }
         
         if($request->job!=NULL){
-            $user->travailleur->update(['job'=>$request->job]); 
+            $user->travailleur->update(['job_id'=>$request->job]); 
+            $job_to_attach=Job::find($request->job);
+            $user->travailleur->job=$job_to_attach;
         }
         $user->save();
          return redirect()->route('info_perso');
@@ -97,6 +127,7 @@ class GlobalController extends Controller{
             'nom_entreprise'=>$request->nom_entreprise,
             'adresse_entreprise'=>$request->adresse_entreprise,
         ]);
+        
         return redirect()->route('info_perso');
     }
     // Controle de la page d'affichage des conventions

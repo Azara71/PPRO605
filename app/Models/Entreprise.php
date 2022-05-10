@@ -19,4 +19,7 @@ class Entreprise extends Model
     public function universites(){
         return $this->belongsToMany(Université::class,'pivot_table_ent_trav_univ','entreprise_id','université_id');
     }
+    public function jobs(){
+        return $this->HasMany(Job::class,'pivot_table_ent_trav_univ','id');
+    }
 }
