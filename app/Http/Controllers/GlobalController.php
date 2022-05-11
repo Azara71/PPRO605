@@ -59,7 +59,7 @@ class GlobalController extends Controller{
     elseif($request->fac_id>0){
         $jobs=DB::table('jobs')
         ->join('pivot_table_ent_fac_job','jobs.id','=','pivot_table_ent_fac_job.job_id')
-        ->join('facultes','pivot_table_ent_fac_job.entreprise_id','=','facultes.id')
+        ->join('facultes','pivot_table_ent_fac_job.faculte_id','=','facultes.id')
         ->where('facultes.id','=',$request->fac_id)
         ->get();
         if(count($jobs)>0)

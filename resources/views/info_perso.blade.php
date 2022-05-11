@@ -145,18 +145,30 @@
 
 
 				@if(Auth::user()->statut=='Université')
-				
 				<div class=champs>
 					<div class=texte-champs>
 						Job :
 					</div>	
 					<div class=saisie-champs>
-					
 					{{Auth::user()->travailleur->job->nom_job}} 
 					</div>
 				</div>	
-				
-
+				<div class=champs>
+					<div class=texte-champs>
+					Université : 
+					</div>
+					<div class=saisie-champs>
+					{{Auth::user()->travailleur->universites[0]->nom_université}}	
+					</div>
+				</div>
+				<div class=champs>
+					<div class=texte-champs>
+					Faculté : 
+					</div>
+					<div class=saisie-champs>
+					{{Auth::user()->travailleur->facultes->nom_faculte}}	
+					</div>
+				</div>
 
 				@endif
 				<button class=sub type=submit">	<div class=button>

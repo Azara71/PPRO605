@@ -15,6 +15,7 @@ class CreateProceduresTable extends Migration
     {
         Schema::create('procedures', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_procedure');
             $table->bigInteger('num_etape');
             $table->Integer('nombre_etapes_max');
             $table->timestamps();

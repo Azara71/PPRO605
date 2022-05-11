@@ -88,10 +88,7 @@ class RegisteredUserController extends Controller
             ]);
             if('entreprise'=='Aucune'){
 
-                $travailleur=Travailleur::create([
-                    'job_id'=>'1',
-                ]);
-            
+               
             }
             else{
                 $travailleur=Travailleur::create([
