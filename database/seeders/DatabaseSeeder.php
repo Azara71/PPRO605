@@ -101,6 +101,83 @@ class DatabaseSeeder extends Seeder
             'travailleur_id'=>'2'
         ]);
 
+        
+        DB::table('etape_modeles')->insert([
+            'description' =>'Validation par le secrétériat',
+            
+        ]);
+        DB::table('etape_modeles')->insert([
+           'description' =>'Signature par l\'élève',
+            
+        ]);
+        DB::table('etape_modeles')->insert([
+           'description' =>'Signature par le responsable de composante',
+            
+        ]);
+        DB::table('etape_modeles')->insert([
+           'description' =>'Signature par le directeur de l\'entreprise',
+          
+        ]);
+          DB::table('etape_modeles')->insert([
+           'description' =>'Signature par le tuteur de l\'entreprise',
+          
+        ]);
+           DB::table('etape_modeles')->insert([
+           'description' =>'Signature par le directeur',
+           
+        ]);
+        DB::table('procedure_modeles')->insert([
+            'nom_procedure' => 'Informatique - Interne',
+            'nombre_etapes_max' => '5',
+        ]);
+        DB::table('procedure_modeles')->insert([
+            'nom_procedure' => 'Informatique - Externe',
+            'nombre_etapes_max' => '6',
+        ]);
+          DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'2',
+            'etape_modele_id'=>'1',
+        ]);
+          DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'2',
+            'etape_modele_id'=>'2',
+        ]);
+           DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'2',
+            'etape_modele_id'=>'3',
+        ]);
+         DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'2',
+            'etape_modele_id'=>'5',
+        ]);
+        DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'2',
+            'etape_modele_id'=>'4',
+        ]);
+          DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'2',
+            'etape_modele_id'=>'6',
+        ]);
+        DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'1',
+            'etape_modele_id'=>'1',
+        ]);
+         DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'1',
+            'etape_modele_id'=>'2',
+        ]);
+         DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'1',
+            'etape_modele_id'=>'3',
+        ]);
+            DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'1',
+            'etape_modele_id'=>'4',
+        ]);
+            DB::table('pivot_table_modeleprocedure_etape')->insert([
+            'procedure_modeles_id'=>'1',
+            'etape_modele_id'=>'6',
+        ]);
              // \App\Models\User::factory(10)->create();
              \App\Models\Université::factory(5)->create();
              \App\Models\Faculte::factory(4)->create();

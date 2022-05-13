@@ -16,7 +16,6 @@ class CreatePivotTableEtapeProcedure extends Migration
         Schema::create('pivot_table_etape_procedure', function (Blueprint $table) {
             $table->foreignId('procedure_id')->constrained()->onDelete('cascade');
             $table->foreignId('etape_id')->constrained()->onDelete('cascade');
-            $table->string('Etat');
             $table->timestamps();
         });
     }

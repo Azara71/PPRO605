@@ -43,7 +43,7 @@
                     url: '{{ route('getJobs') }}?ent_id='+entrepriseId,
                     type: 'get',
                     success: function (res) {
-                        $('#job_selection').html('<option value="">Selectionnez un job</option>');
+                        $('#job_selection').html('<option value="">Selectionnez une fonction</option>');
                         $.each(res, function (key, value) {
                             $('#job_selection').append('<option value="' + value
                                 .id + '">' + value.nom_job + '</option>');
@@ -60,7 +60,7 @@
                     url: '{{ route('getJobs') }}?fac_id='+facId,
                     type: 'get',
                     success: function (res) {
-                        $('#fonction_univ').html('<option value="">Selectionnez un job</option>');
+                        $('#fonction_univ').html('<option value="">Selectionnez une fonction</option>');
                         $.each(res, function (key, value) {
                             $('#fonction_univ').append('<option value="' + value
                                 .id + '">' + value.nom_job + '</option>');
@@ -236,7 +236,7 @@
 				</select>
 				</div>
 
-				<div class=entry id="name">Job :</div>
+				<div class=entry id="name">Fonction :</div>
 				<div class="custom-select">
 				<select id="job_selection" name="fonction">
 					<option value="" class=opt>Choisissez une entreprise...</option>
@@ -268,10 +268,10 @@
 </select>
 </div>
 <div class="custom-select">
-<div class=entry >Job :</div>
+<div class=entry >Fonction à l'université :</div>
 
 <select id="fonction_univ" name="fonction_univ" >
-	<option value="" class=opt>Choisissez un job</option>
+	<option value="" class=opt>Choisissez une fonction</option>
 
 </select>
 </div>

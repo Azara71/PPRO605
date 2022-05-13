@@ -110,7 +110,7 @@
 				</div>	
 				<div class=champs>
 					<div class=texte-champs>
-						Job :
+						Emploi dans l'entreprise : 
 					</div>	
 					<div class=saisie-champs>
 						{{Auth::user()->travailleur->job->nom_job}}
@@ -147,7 +147,7 @@
 				@if(Auth::user()->statut=='Université')
 				<div class=champs>
 					<div class=texte-champs>
-						Job :
+						Statut à l'université :
 					</div>	
 					<div class=saisie-champs>
 					{{Auth::user()->travailleur->job->nom_job}} 

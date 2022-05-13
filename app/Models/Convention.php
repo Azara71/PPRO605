@@ -9,6 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Convention extends Model
 {
+    protected $fillable=[ 
+                'description',
+                'chemin_convention',
+                'date_creation',
+                'date_derniere_modification',
+                'procedure_id',
+                'date_debut',
+                'date_fin',
+    ];
     use HasFactory;
     public function procedure()
     {

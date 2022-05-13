@@ -52,6 +52,10 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
+        'conventions'=>[
+            'driver' => 'local',
+            'root' => storage_path().'/pdf',
+        ],
 
     ],
 

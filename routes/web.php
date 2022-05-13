@@ -43,11 +43,12 @@ Route::post('ajout_entreprise',[GlobalController::class,'ajout_entreprise'])->na
 Route::get('/mes_conventions', [GlobalController::class,'mes_conventions']);
 
 Route::get('/mes_conventions/create', [GlobalController::class,'mes_conventions_create']);
-
+Route::get('get-etapes',[GlobalController::class, 'getEtapes'])->name('getEtapes'); 
+Route::get('get-tuteurs',[GlobalController::class,'getTuteurs'])->name('getTuteurs');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-
+Route::post('upload_convention',[GlobalController::class,'upload_convention'])->name('upload_convention');
 require __DIR__.'/auth.php';
-
+Route::get('test',[GlobalController::class,'test'])->name('test');
 ?>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEtapesTable extends Migration
+class CreatePivotTableModeleprocedureEtape extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateEtapesTable extends Migration
      */
     public function up()
     {
-        Schema::create('etapes', function (Blueprint $table) {
+        Schema::create('pivot_table_modeleprocedure_etape', function (Blueprint $table) {
             $table->id();
-            $table->mediumText('description');
-            $table->boolean('etat');
+            $table->foreignId('procedure_modeles_id')->constrained()->onDelete('cascade');
+            $table->foreignId('etape_modele_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->foreignId('etape_modele_id');
-            
         });
     }
 
@@ -30,6 +28,6 @@ class CreateEtapesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etapes');
+        Schema::dropIfExists('pivot_table_modeleprocedure_etape');
     }
 }

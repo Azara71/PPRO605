@@ -67,12 +67,13 @@
             </div>
           </div>
         </div>
-        
+        @if(Auth::user()->statut=='Etudiant')
         <div class=convention_plus onclick="location.href='mes_conventions/create';">
            <div class=plus >
               @include('svg.plus')
           </div>
         </div>
+        @endif
     
 
        

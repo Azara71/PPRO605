@@ -15,8 +15,8 @@ class CreateProceduresTable extends Migration
     {
         Schema::create('procedures', function (Blueprint $table) {
             $table->id();
-            $table->string('nom_procedure');
             $table->bigInteger('num_etape');
+            $table->foreignId('procedure_modeles_id')->constrained()->onDelete('cascade');
             $table->Integer('nombre_etapes_max');
             $table->timestamps();
         });
