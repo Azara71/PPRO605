@@ -23,6 +23,8 @@ class CreateConventionsTable extends Migration
             $table->date('date_fin');
             $table->foreignId('procedure_id')->constrained(); // Laravel trouve automatiquement grâce à un alias l'id dans la table procedure.
             $table->timestamps();
+            $table->unsignedBigInteger('tuteur_id')->nullable();
+            $table->foreign('tuteur_id')->references('id')->on('users');
         });
     }
     

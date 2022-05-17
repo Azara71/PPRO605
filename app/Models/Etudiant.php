@@ -17,13 +17,13 @@ class Etudiant extends Model
 
     use HasFactory;
     public function user(){
-        return $this->belongsTo(User::class, 'id');
+          return $this->hasOne(User::class,'');
+      
+     
     }
 
     public function facultes(){ 
         return $this->belongsToMany(Faculte::class,'pivot_table_etudiant_faculte');
     }
-    public function universite(){
-        return $this->hasOneThrough(Faculte::class,Etudiant);
-    }
+
 }

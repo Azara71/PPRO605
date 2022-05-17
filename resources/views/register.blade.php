@@ -170,9 +170,9 @@
 				<div class="custom-select">
 					<select id="annee_selection" required>
 						<option value="" class=opt>Choisissez une année ...</option>
-						<option value="fac1">L1</option>
-						<option value="fac2">L2</option>
-						<option value="fac3">L3</option>
+						<option value="L1">L1</option>
+						<option value="L2">L2</option>
+						<option value="L3">L3</option>
 					</select>
 				</div>
 				<div class=entry>Numéro d'étudiant:</div>

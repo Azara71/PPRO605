@@ -24,9 +24,11 @@ ul {
   li a:hover {
     background-color: #142c3b;
   }
-  .active {
+ 
+  li a:active {
     background-color:  rgb(64, 154, 182);
   }
+
 .deconnexion {
     float: right;
 }

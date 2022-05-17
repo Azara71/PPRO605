@@ -128,8 +128,7 @@ class RegisteredUserController extends Controller
                 'statut'=>$request->statut,
                 'travailleur_id'=>$travailleur->id,
             ]);
-            $mon_université=Université::find($request->universite_univ);
-            $travailleur->universites()->attach($mon_université);
+            $travailleur->facultes()->attach($request->faculte_univ);
 
         }
 

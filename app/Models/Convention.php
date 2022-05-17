@@ -17,6 +17,7 @@ class Convention extends Model
                 'procedure_id',
                 'date_debut',
                 'date_fin',
+                'tuteur_id',
     ];
     use HasFactory;
     public function procedure()
@@ -28,6 +29,9 @@ class Convention extends Model
         return $this->hasMany(Avenant::class,'id');
     }
     public function users(){ 
-        return $this->belongsToMany(User::class,'pivot_table_convention_user');
+        return $this->belongsToMany(User::class,'pivot_table_convention_user','convention_id','user_id');
+    }
+    public function tuteur(){
+        return $this->hasOne(User::class,'id','tuteur_id');
     }
 }

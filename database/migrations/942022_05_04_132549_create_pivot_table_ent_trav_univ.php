@@ -13,9 +13,9 @@ class CreatePivotTableEntTravUniv extends Migration
      */
     public function up()
     {
-        Schema::create('pivot_table_ent_trav_univ', function (Blueprint $table) {
+        Schema::create('pivot_table_ent_trav_fac', function (Blueprint $table) {
             $table->foreignId('travailleur_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('université_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('faculte_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('entreprise_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreatePivotTableEntTravUniv extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pivot_table_ent_trav_univ');
+        Schema::dropIfExists('pivot_table_ent_trav_fac');
     }
 }

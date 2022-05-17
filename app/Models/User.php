@@ -52,14 +52,16 @@ class User extends Authenticatable
 
     public function etudiant()
     {
-        return $this->hasOne(Etudiant::class,'id');
+           return $this->belongsTo(Etudiant::class);
     }
     public function travailleur(){
         return $this->belongsTo(Travailleur::class,'travailleur_id','id');
     }
     public function conventions(){ 
-        return $this->belongsToMany(Convention::class,'pivot_table_convention_user');
+        return $this->belongsToMany(Convention::class,'pivot_table_convention_user','convention_id','user_id');
     }
-  
+    public function convention(){
+        return $this->belongsTo(Convention::class,'tuteur_id');
+    }
     
 }

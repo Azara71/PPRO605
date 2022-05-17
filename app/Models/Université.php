@@ -20,6 +20,6 @@ class Université extends Model
     }
     
     public function entreprises(){
-        return $this->belongsToMany(Entreprise::class,'pivot_table_ent_trav_univ','université_id','entreprise_id');
+        return $this->belongsToMany(Entreprise::class,'pivot_table_ent_trav_fac','université_id','entreprise_id');
     }
 }

@@ -143,9 +143,23 @@ public function ajout_entreprise(Request $request){
 
 public function mes_conventions()
 {
-    return view('mes_conventions');
+     /* $conventions=DB::table('conventions')
+        ->join('pivot_table_convention_user','conventions.id','=','pivot_table_convention_user.convention_id')
+        ->join('users','users.id','=','pivot_table_convention_user.user_id')
+        ->where('users.id','=',Auth::user()->id)
+        ->paginate(3);
+        */
+    $conventions=Auth::user()->conventions->sortBy('id');
+    
+        return view('mes_conventions',compact('conventions'));
 }
-
+public function dl($id)
+{   
+        $file_to_dl=Convention::find($id);
+        return Storage::download($file_to_dl->chemin_convention);
+        $conventions=Auth::user()->conventions->sortBy('id');
+        return redirect()->route('mes_conventions');
+}
 // Controle de la page principal
 public function main()
 {
@@ -179,8 +193,8 @@ public function mes_conventions_create(){
     {
         $tuteurs=DB::table('users')
         ->join('travailleurs','travailleurs.id','=','users.travailleur_id')
-        ->join('pivot_table_ent_trav_univ','travailleurs.id','=','pivot_table_ent_trav_univ.travailleur_id')
-        ->join('entreprises','entreprises.id','=','pivot_table_ent_trav_univ.entreprise_id')
+        ->join('pivot_table_ent_trav_fac','travailleurs.id','=','pivot_table_ent_trav_fac.travailleur_id')
+        ->join('entreprises','entreprises.id','=','pivot_table_ent_trav_fac.entreprise_id')
         ->where('entreprises.id','=',$request->ent_id)
         ->get();
    
@@ -234,7 +248,7 @@ public function mes_conventions_create(){
         $filename= $file->getClientOriginalName(); //On récupère le nom original du fichier 
         $filename=time().'.'.$filename; // On concatène son nom avec le time qui sera donc unique.
         $path = $file->storeAs('conventions',$filename); // On l'enregistre dans le fichier conventions avec son nom, il renvoi alros le chemin.
-
+        $travailleur_tuteur=Travailleur::find($request->tuteur_selection); // On trouve le travailleur grâce à l'id passé par le formulaire html
         $convention=Convention::create([
                 'description'=>$request->description,
                 'chemin_convention'=>$path,
@@ -243,8 +257,10 @@ public function mes_conventions_create(){
                 'procedure_id'=>$procedure->id,
                 'date_debut'=>$request->date_debut,
                 'date_fin'=>$request->date_fin,
+                'tuteur_id'=>$travailleur_tuteur->user->id,
         ]);
-        $travailleur_tuteur=Travailleur::find($request->tuteur_selection); // numero de tuteur
+        $travailleur_tuteur=Travailleur::find($request->tuteur_selection); 
+        
         $convention->users()->attach($travailleur_tuteur->user);
         $convention->users()->attach(Auth::user());
 

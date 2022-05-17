@@ -16,9 +16,8 @@ class Faculte extends Model
         return $this->belongsTo(Université::class,'id');
     }
     public function travailleurs(){
-        return $this->belongsTo(Travailleur::class,'id');
+         return $this->HasMany(Travailleur::class,'pivot_table_ent_trav_fac','id');
     }
-    
     public function etudiants(){ 
         return $this->belongsToMany(Etudiant::class,'pivot_table_etudiant_faculte');
     }

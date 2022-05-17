@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
         DB::table('jobs')->insert(['nom_job'=>'Banquier',        ]);
         DB::table('jobs')->insert(['nom_job'=>'Professeur informatique',        ]);
         DB::table('jobs')->insert(['nom_job'=>'Gérant Licence',        ]);
-
+        DB::table('jobs')->insert(['nom_job'=>'Secrétériat',        ]);
+       
         DB::table('universités')->insert([
             'nom_université' => 'Univ de toto',
             'adresse_université' => 'Adrr univ de toto',
@@ -51,6 +52,7 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
             'etudiant_id'=>'1',
         ]);
+
         DB::table('entreprises')->insert([
             'nom_entreprise'=>'Entreprise de Toto',
             'num_siret'=>'11111111111111',
@@ -60,6 +62,7 @@ class DatabaseSeeder extends Seeder
             'entreprise_id'=>'1',
             'job_id'=>'2',
         ]);
+        
         DB::table('pivot_table_ent_fac_job')->insert([
             'entreprise_id'=>'1',
             'job_id'=>'3',
@@ -70,10 +73,23 @@ class DatabaseSeeder extends Seeder
        DB::table('travailleurs')->insert([
         'job_id'=>'7',
        ]);
+        DB::table('travailleurs')->insert([
+        'job_id'=>'8',
+       ]);
        DB::table('pivot_table_ent_fac_job')->insert([
         'faculte_id'=>'1',
         'job_id'=>'7',
-   ]);
+         ]);
+     DB::table('pivot_table_ent_fac_job')->insert([
+        'faculte_id'=>'1',
+        'job_id'=>'1',
+     ]);
+       DB::table('pivot_table_ent_fac_job')->insert([
+        'faculte_id'=>'1',
+        'job_id'=>'8',
+     ]);
+     
+     
        
         DB::table('users')->insert([
             'prenom' => 'totoentreprise',
@@ -83,14 +99,26 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
             'travailleur_id'=>'1'
         ]);
-        DB::table('pivot_table_ent_trav_univ')->insert([
+           DB::table('users')->insert([
+            'prenom' => 'totosecretaire',
+            'nom' => 'totosecretaire',
+            'statut'=>'Université',
+            'email' => 'totosecretaire@totosecretaire.fr',
+            'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
+            'travailleur_id'=>'3'
+        ]);
+        
+        DB::table('pivot_table_ent_trav_fac')->insert([
             'travailleur_id'=>'1',
             'entreprise_id'=>'1',
         ]);
-        DB::table('pivot_table_ent_trav_univ')->insert([
+        DB::table('pivot_table_ent_trav_fac')->insert([
             'travailleur_id'=>'2',
-            'université_id'=>'1',
-
+            'faculte_id'=>'1',
+        ]);
+          DB::table('pivot_table_ent_trav_fac')->insert([
+            'travailleur_id'=>'3',
+            'faculte_id'=>'1',
         ]);
         DB::table('users')->insert([
             'prenom' => 'totoprof',

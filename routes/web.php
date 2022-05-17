@@ -40,9 +40,10 @@ Route::post('/modify',[GlobalController::class,'modify'])->name('modify');
 Route::get('/add_entreprise',[GlobalController::class,'add_entreprise'])->name('add_entreprise');
 Route::post('ajout_entreprise',[GlobalController::class,'ajout_entreprise'])->name('ajout_entreprise');
 
-Route::get('/mes_conventions', [GlobalController::class,'mes_conventions']);
+Route::get('/mes_conventions', [GlobalController::class,'mes_conventions'])->name('mes_conventions');
 
 Route::get('/mes_conventions/create', [GlobalController::class,'mes_conventions_create']);
+Route::get('/mes_conventions/dl/{id}', [GlobalController::class,'dl']);
 Route::get('get-etapes',[GlobalController::class, 'getEtapes'])->name('getEtapes'); 
 Route::get('get-tuteurs',[GlobalController::class,'getTuteurs'])->name('getTuteurs');
 Route::get('/dashboard', function () {

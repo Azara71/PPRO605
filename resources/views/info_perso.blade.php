@@ -158,7 +158,7 @@
 					Université : 
 					</div>
 					<div class=saisie-champs>
-					{{Auth::user()->travailleur->universites[0]->nom_université}}	
+					{{Auth::user()->travailleur->facultes[0]->universite->nom_université}}	
 					</div>
 				</div>
 				<div class=champs>
@@ -166,7 +166,7 @@
 					Faculté : 
 					</div>
 					<div class=saisie-champs>
-					{{Auth::user()->travailleur->facultes->nom_faculte}}	
+					{{Auth::user()->travailleur->facultes[0]->nom_faculte}}	
 					</div>
 				</div>
 
