@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEtapeModelesTable extends Migration
+class CreateEtapesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,16 @@ class CreateEtapeModelesTable extends Migration
      */
     public function up()
     {
-        Schema::create('etape_modeles', function (Blueprint $table) {
+        Schema::create('etapes', function (Blueprint $table) {
             $table->id();
             $table->mediumText('description');
+            $table->boolean('etat');
             $table->timestamps();
+                        $table->unsignedBigInteger('etape_modele_id')->nullable();
+
+                        $table->foreign('etape_modele_id')->references('id')->on('etape_modeles');
+
+            
         });
     }
 
@@ -27,6 +33,6 @@ class CreateEtapeModelesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etape_modeles');
+        Schema::dropIfExists('etapes');
     }
 }

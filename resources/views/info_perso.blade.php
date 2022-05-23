@@ -169,8 +169,18 @@
 					{{Auth::user()->travailleur->facultes[0]->nom_faculte}}	
 					</div>
 				</div>
+				
+
 
 				@endif
+				<div class=champs>
+					<div class=texte-champs>
+					Acces : 
+					</div>
+					<div class=saisie-champs>
+					{{Auth::user()->acces->Description}}	
+					</div>
+				</div>
 				<button class=sub type=submit">	<div class=button>
 						Enregistrer
 						@include('svg.stylo')

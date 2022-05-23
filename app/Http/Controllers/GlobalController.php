@@ -12,6 +12,7 @@ use App\Models\Convention;
 use App\Models\Entreprise;
 use App\Models\Université;
 use App\Models\Travailleur;
+use App\Models\Etape_modele;
 use Illuminate\Http\Request;
 use Illuminate\Support\File;
 use App\Models\Procedure_modele;
@@ -156,9 +157,47 @@ public function mes_conventions()
 public function dl($id)
 {   
         $file_to_dl=Convention::find($id);
-        return Storage::download($file_to_dl->chemin_convention);
+        return Storage::download($file_to_dl->chemin_convention,'convention.pdf');
         $conventions=Auth::user()->conventions->sortBy('id');
         return redirect()->route('mes_conventions');
+}
+public function edit($id)
+{
+    
+    $convention=DB::table('conventions')  
+     ->where('conventions.id','=',$id)
+     ->join('pivot_table_convention_user','conventions.id','=','pivot_table_convention_user.convention_id')
+     ->where('pivot_table_convention_user.user_id','=',Auth::user()->id)
+     ->get();
+     if(count($convention)>0){
+      
+        $procedure=Procedure::find($convention[0]->procedure_id);
+        if($procedure != NULL){
+            $etapes=DB::table('etapes')
+            ->join('pivot_table_etape_procedure','pivot_table_etape_procedure.etape_id','=','etapes.id')
+            ->join('procedures','pivot_table_etape_procedure.procedure_id','=','procedures.id')
+            ->where('procedures.id','=',$convention[0]->procedure_id)
+            ->orderBy('etapes.id')
+            ->get();
+        }
+
+        if($procedure->num_etape<=$procedure->nombre_etapes_max){
+            $etape_en_cours=$etapes[$procedure->num_etape-1];
+            $etape_en_cours_modele=Etape_modele::find($etape_en_cours->etape_modele_id);
+            $etape_acces=$etape_en_cours_modele->acces;
+        }
+        else {
+            abort(404);
+        }
+     }
+     
+ 
+    if(count($convention)>0 && $procedure != NULL && count($etapes)>0){
+     return view('edit_convention',compact('convention','procedure','etapes','etape_en_cours','etape_en_cours_modele','etape_acces'));
+    }
+    else{
+        abort(404);
+    }
 }
 // Controle de la page principal
 public function main()
@@ -207,7 +246,9 @@ public function mes_conventions_create(){
     public function upload_convention(Request $request)
     {
         $request->validate([
-            'convention' => 'required|mimes:pdf'
+            'convention' => 'required|mimes:pdf',
+            'tuteur_selection' => 'required',
+            'entreprise_selection' =>'required',
         ]);
         $procedure_modeles=DB::table('procedure_modeles')
         ->where('procedure_modeles.id','=',$request->procedure)
@@ -225,7 +266,7 @@ public function mes_conventions_create(){
          
             // Récupération des étapes modèles lié à la procédure modèles afin de les copier à la nouvelle procédure.
             $etape_modeles=DB::table('etape_modeles')
-            ->join('pivot_table_modeleprocedure_etape','etape_modeles.id','=','pivot_table_modeleprocedure_etape.etape_modele_id')
+            ->join('pivot_table_modeleprocedure_etape','pivot_table_modeleprocedure_etape.etape_modele_id','=','etape_modeles.id')
             ->join('procedure_modeles','pivot_table_modeleprocedure_etape.procedure_modeles_id','=','procedure_modeles.id')
             ->where('procedure_modeles.id','=',$procedure_modele->id)
             ->get(); 
@@ -236,7 +277,7 @@ public function mes_conventions_create(){
                     'etat'=>'0',
                     'created_at'=>now(),
                     'updated_at'=>now(),
-                    'etape_modele_id'=>$etape_modele->id,
+                    'etape_modele_id'=>$etape_modele->etape_modele_id, // BUG DE LARAVEL SUR LE LINKAGE DE L'ID ??
                 ]);
                 $procedure->etapes()->attach($etape);
             }
@@ -263,22 +304,98 @@ public function mes_conventions_create(){
         
         $convention->users()->attach($travailleur_tuteur->user);
         $convention->users()->attach(Auth::user());
-
-         // Création de la convention, link de la convention- procedure
-            // Link du tuteur avec la convention
-            // Link du personnel de l'université avec la convention
-            // Link de Auth::user() avec la convention
-        return redirect()->route('test')->with('procedure_modeles',$travailleur_tuteur);
-
-          
         
+      
+       $directeurs=DB::table('travailleurs')
+        ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
+        ->where('entreprise_id','=',$request->entreprise_selection)
+        ->where('job_id','=','2')
+        ->get();
+        
+           foreach ($directeurs as $directeur){
+            $sec=User::where('travailleur_id','=',$directeur->travailleur_id)->get();
+            $array[]=$sec;
+            $convention->users()->attach($sec);
+        }
 
-    
+
+        $faculte=Auth::user()->etudiant->facultes;
+        $travailleurs_secretaires=DB::table('travailleurs')
+        ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
+        ->where('faculte_id','=',$faculte[0]->id)
+        ->where('job_id','=','8')
+        ->get();
+       
+        foreach ($travailleurs_secretaires as $secretaire){
+            $sec=User::where('travailleur_id','=',$secretaire->travailleur_id)->get();
+            $array[]=$sec;
+            $convention->users()->attach($sec);
+        }
+
+         $travailleurs_directeur=DB::table('travailleurs')
+        ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
+        ->where('faculte_id','=',$faculte[0]->id)
+        ->where('job_id','=','1')
+        ->get();
+         $array=array();
+         foreach ($travailleurs_directeur as $directeur){
+            $dir=User::where('travailleur_id','=',$directeur->travailleur_id)->get();
+            $array[]=$dir;
+            $convention->users()->attach($dir);
+        }
+                  return redirect()->route('test')->with('procedure_modeles',$travailleur_tuteur);
+
+      
+     
     }
     public function test(){
         return view('test');
     }
 
+    
+    public function maj_convention(Request $request,$id){
+        $convention=Convention::find($id);
+      
+        if (Auth::user()->conventions->contains($convention) ){
+      
+        $etape=$convention->procedure->etapes[$convention->procedure->num_etape-1];
+                
+        if($etape->etape_modele->acces->Description==Auth::user()->acces->Description){        
+                    $etape->update(['etat'=>1]);
+                    $etape->save();
+                    if($convention->procedure->num_etape<=$convention->procedure->nombre_etapes_max){
+                        $convention->procedure->num_etape=$convention->procedure->num_etape+1;
+                      
+                    }
+                    
+        $file = $request->file('convention'); // On récupère le champs convention
+        $filename= $file->getClientOriginalName(); //On récupère le nom original du fichier 
+        $filename=time().'.'.$filename; // On concatène son nom avec le time qui sera donc unique.
+        $path = $file->storeAs('conventions',$filename); // On l'enregistre dans le fichier conventions avec son nom, il renvoi alros le chemin.
+
+        Storage::delete($convention->chemin_convention);
+
+
+
+        $convention->update(['chemin_convention'=>$path]);
+        $convention->update(['date_derniere_modification'=>now()]);
+        $convention->procedure->save();
+
+
+            if($convention->procedure->num_etape<$convention->procedure->nombre_etapes_max){
+                return redirect()->route('test')->with('procedure_modeles',$etape->etape_modele->acces);
+            }
+            else{
+                return redirect()->route('mes_conventions');
+            }
+
+        }
+        }
+
+        else{
+            abort(404);
+        }
+    }
 
 
 

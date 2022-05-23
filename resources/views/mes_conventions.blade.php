@@ -21,7 +21,7 @@
         @foreach($conventions as $convention)
              <div class=convention>
             <div class=titre>
-                  Le titre de ma convention
+                  {{$convention->procedure->procedure_modele->nom_procedure}}
             </div>
             <div class=content>
                 <div class=description>
@@ -39,12 +39,22 @@
                             Modifiée le : {{$convention->date_derniere_modification}}
                             </div>
                             <div class=tuteur>
-                          
+                            @if($convention->procedure->num_etape <= $convention->procedure->nombre_etapes_max)
+                            Etapes : {{$convention->procedure->num_etape}} / {{$convention->procedure->nombre_etapes_max}} 
+                           <div class=tuteur>
+                            Etat : En Cours
                             </div>
+                            @else
+                            Etapes : Fini
+                            @endif
+                            </div>
+                         
                            <div class=buttons-list>
-                               <div class=voir>
+                                @if($convention->procedure->num_etape<=$convention->procedure->nombre_etapes_max)
+                               <div class=voir onclick="location.href='mes_conventions/edit_convention/{{$convention->id}}'">
                                    @include('svg.stylo')
                                 </div>
+                            @endif
                                <div class=voir onclick="location.href='mes_conventions/dl/{{$convention->id}}'">
 	                                @include('svg.dl')
                                </div>

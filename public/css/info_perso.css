@@ -2,6 +2,7 @@ body{
     margin:0%;
     padding:0%;
     background-color:#010c13;
+
 }
 .container{
     display:flex;
@@ -9,6 +10,7 @@ body{
     flex-wrap:wrap;
     align-items:center;
     justify-content: center;
+
 
 
 }
@@ -59,4 +61,48 @@ body{
     
     transform: scale(1.1); 
 }
+.etapes{
+    
+    display:flex;
+    justify-content: center;
+}
+.circleended{
+    margin-top:10px;
+    width:50px;
+    background-color: rgb(64, 154, 182);
+    height:50px;
+    text-align:center;
+    border-radius:100px;
+    line-height: 45px;
+    
+}
 
+.circletodo{
+        margin-top:10px;
+
+    width:50px;
+    background-color: grey;
+    height:50px;
+    text-align:center;
+    border-radius:100px;
+    line-height: 45px;
+    
+}
+.circledone{
+        margin-top:10px;
+
+    width:50px;
+    background-color: rgb(34, 79, 94);
+    height:50px;
+    text-align:center;
+    border-radius:100px;
+    line-height: 45px;
+    
+}
+.explication_etape{
+    margin-top:20px;
+    margin-left:6px;
+    width:100px;
+    color:white;
+  
+}

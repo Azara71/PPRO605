@@ -74,6 +74,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'statut'=>$request->statut,
                 'etudiant_id'=>$student->id,
+                'access_id'=>'1',
             ]);
             $ma_fac=Faculte::find($request->faculte);
             $student->facultes()->attach($ma_fac);
@@ -96,8 +97,6 @@ class RegisteredUserController extends Controller
                 ]);
             
             }
-           
-               
             $user = User::create([
                 'prenom'=> $request->prenom,
                 'nom' => $request->nom,
@@ -106,10 +105,28 @@ class RegisteredUserController extends Controller
                 'statut'=>$request->statut,
                 'travailleur_id'=>$travailleur->id,
             ]);
+            switch($request->fonction){
+            case '1':
+             $user->acces_id = '3';
+             $user->save();
+            break;
+            case '2':
+             $user->acces_id = '6';
+             $user->save();
+            break;
+            case '7':
+             $user->acces_id = '4';
+             $user->save();
+            break;
+            case '8':
+             $user->acces_id = '2';
+             $user->save();
+            break;
+           
+            }
             $mon_entreprise=Entreprise::find($request->entreprise);
             $travailleur->entreprises()->attach($mon_entreprise);
-
-        }
+         }
 
         if(strcmp($request->statut,'Université')==0){
             $request->validate([
@@ -120,16 +137,36 @@ class RegisteredUserController extends Controller
             $travailleur=Travailleur::create([
                 'job_id'=>$request->fonction_univ,
             ]);
-            $user=User::create([
+              $user=User::create([
                 'prenom'=> $request->prenom,
                 'nom' => $request->nom,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'statut'=>$request->statut,
                 'travailleur_id'=>$travailleur->id,
+                
             ]);
+            switch($request->fonction_univ){
+            case '1':
+             $user->acces_id = '3';
+             $user->save();
+            break;
+            case '2':
+             $user->acces_id = '6';
+             $user->save();
+            break;
+            case '7':
+             $user->acces_id = '4';
+             $user->save();
+            break;
+            case '8':
+             $user->acces_id = '2';
+             $user->save();
+            break;
+         
+           
+            }
             $travailleur->facultes()->attach($request->faculte_univ);
-
         }
 
 

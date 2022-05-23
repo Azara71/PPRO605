@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Acces;
 use App\Models\Etudiant;
 use App\Models\Convention;
 use App\Models\Université;
@@ -49,16 +50,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    public function acces(){
+        return $this->belongsTo(Acces::class);
+    }
     public function etudiant()
     {
            return $this->belongsTo(Etudiant::class);
     }
     public function travailleur(){
-        return $this->belongsTo(Travailleur::class,'travailleur_id','id');
+        return $this->belongsTo(Travailleur::class);
     }
     public function conventions(){ 
-        return $this->belongsToMany(Convention::class,'pivot_table_convention_user','convention_id','user_id');
+        return $this->belongsToMany(Convention::class,'pivot_table_convention_user');
     }
     public function convention(){
         return $this->belongsTo(Convention::class,'tuteur_id');

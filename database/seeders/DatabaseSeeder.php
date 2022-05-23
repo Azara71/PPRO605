@@ -26,7 +26,12 @@ class DatabaseSeeder extends Seeder
         DB::table('jobs')->insert(['nom_job'=>'Professeur informatique',        ]);
         DB::table('jobs')->insert(['nom_job'=>'Gérant Licence',        ]);
         DB::table('jobs')->insert(['nom_job'=>'Secrétériat',        ]);
-       
+        DB::table('acces')->insert(['Description'=>'Etudiant',]);
+        DB::table('acces')->insert(['Description'=>'Secrétériat',]);
+        DB::table('acces')->insert(['Description'=>'Directeur de faculté',]);
+        DB::table('acces')->insert(['Description'=>'Gérant Licence']);
+        DB::table('acces')->insert(['Description'=>'Tuteur']);
+        DB::table('acces')->insert(['Description'=>'Directeur d\'entreprise']);
         DB::table('universités')->insert([
             'nom_université' => 'Univ de toto',
             'adresse_université' => 'Adrr univ de toto',
@@ -51,12 +56,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'totoetudiant@totoetudiant.fr',
             'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
             'etudiant_id'=>'1',
+            'acces_id'=>'1',
         ]);
 
         DB::table('entreprises')->insert([
             'nom_entreprise'=>'Entreprise de Toto',
             'num_siret'=>'11111111111111',
             'adresse_entreprise'=>'12 rue de Toto',
+            
         ]);
         DB::table('pivot_table_ent_fac_job')->insert([
             'entreprise_id'=>'1',
@@ -97,7 +104,9 @@ class DatabaseSeeder extends Seeder
             'statut'=>'Entreprise',
             'email' => 'totoentreprise@totoentreprise.fr',
             'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
-            'travailleur_id'=>'1'
+            'travailleur_id'=>'1',
+            'acces_id'=>'5',
+
         ]);
            DB::table('users')->insert([
             'prenom' => 'totosecretaire',
@@ -105,7 +114,8 @@ class DatabaseSeeder extends Seeder
             'statut'=>'Université',
             'email' => 'totosecretaire@totosecretaire.fr',
             'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
-            'travailleur_id'=>'3'
+            'travailleur_id'=>'3',
+            'acces_id'=>'2',
         ]);
         
         DB::table('pivot_table_ent_trav_fac')->insert([
@@ -126,32 +136,40 @@ class DatabaseSeeder extends Seeder
             'statut'=>'Université',
             'email' => 'totoprof@totoprof.fr',
             'password' => '$2y$10$mScMZRDF6cZKsYoHgUDtY.KhM.ByeG9DQqpsY3nLmLsDR1IyryjAm', // totoprof
-            'travailleur_id'=>'2'
+            'travailleur_id'=>'2',
+             'acces_id'=>'2',
         ]);
 
         
         DB::table('etape_modeles')->insert([
             'description' =>'Validation par le secrétériat',
+            'acces_id'=>'2',
             
         ]);
         DB::table('etape_modeles')->insert([
            'description' =>'Signature par l\'élève',
+           'acces_id'=>'1',
             
         ]);
         DB::table('etape_modeles')->insert([
            'description' =>'Signature par le responsable de composante',
+            'acces_id'=>'4',
+
             
         ]);
         DB::table('etape_modeles')->insert([
            'description' =>'Signature par le directeur de l\'entreprise',
+           'acces_id'=>'6',
           
         ]);
           DB::table('etape_modeles')->insert([
            'description' =>'Signature par le tuteur de l\'entreprise',
+           'acces_id'=>'5',
           
         ]);
            DB::table('etape_modeles')->insert([
            'description' =>'Signature par le directeur',
+             'acces_id'=>'3',
            
         ]);
         DB::table('procedure_modeles')->insert([

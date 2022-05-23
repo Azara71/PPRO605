@@ -46,7 +46,7 @@
                         $('#job_selection').html('<option value="">Selectionnez une fonction</option>');
                         $.each(res, function (key, value) {
                             $('#job_selection').append('<option value="' + value
-                                .id + '">' + value.nom_job + '</option>');
+                                .job_id + '">' + value.nom_job + '</option>');
                         });
                     }
                 });
@@ -63,7 +63,7 @@
                         $('#fonction_univ').html('<option value="">Selectionnez une fonction</option>');
                         $.each(res, function (key, value) {
                             $('#fonction_univ').append('<option value="' + value
-                                .id + '">' + value.nom_job + '</option>');
+                                .job_id + '">' + value.nom_job + '</option>');
                         });
                     }
                 });
@@ -216,7 +216,13 @@
 				</div>
 				<div class=entry>Numéro d'étudiant:</div>
 					<input type="text" placeholder="Rentrer votre numéro d'étudiant" id="numero_etudiant" name="numero_etudiant" >
+						  <x-button class="ml-4">
+                    {{ __('Register') }}
+                </x-button>
+			
 				</div>
+				 
+			
 
 
 
@@ -243,7 +249,11 @@
 					
 				
 				</select>
+
 				</div>
+				 <x-button class="ml-4">
+                    {{ __('Register') }}
+                </x-button>
 			</div>
 
 				<!--Saisie visible que si université-->
@@ -258,6 +268,8 @@
 					@endforeach
 					
 				</select>
+					<input type="text" placeholder="Rentrer votre numéro d'étudiant" id="numero_etudiant" name="numero_etudiant" >
+						 
 				</div>
 				<div class=entry >Faculté :</div>
 
@@ -279,7 +291,7 @@
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
-
+			
                 <x-button class="ml-4">
                     {{ __('Register') }}
                 </x-button>

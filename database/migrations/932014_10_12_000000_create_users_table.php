@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->foreignId('etudiant_id')->nullable()->constrained();
             $table->foreignId('travailleur_id')->nullable()->constrained();
+            $table->foreignId('acces_id')->nullable()->constrained();
             $table->rememberToken();
             $table->timestamps();
            

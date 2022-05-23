@@ -18,7 +18,7 @@ class Travailleur extends Model
 ];
     use HasFactory;
     public function user(){
-         return $this->HasOne(User::class, 'id','id');
+         return $this->HasOne(User::class);
     }
     public function facultes(){
         return $this->belongsToMany(Faculte::class,'pivot_table_ent_trav_fac','travailleur_id','faculte_id');

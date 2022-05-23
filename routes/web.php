@@ -44,12 +44,14 @@ Route::get('/mes_conventions', [GlobalController::class,'mes_conventions'])->nam
 
 Route::get('/mes_conventions/create', [GlobalController::class,'mes_conventions_create']);
 Route::get('/mes_conventions/dl/{id}', [GlobalController::class,'dl']);
+Route::get('/mes_conventions/edit_convention/{id}',[GlobalController::class,'edit'])->name('edit');
 Route::get('get-etapes',[GlobalController::class, 'getEtapes'])->name('getEtapes'); 
 Route::get('get-tuteurs',[GlobalController::class,'getTuteurs'])->name('getTuteurs');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 Route::post('upload_convention',[GlobalController::class,'upload_convention'])->name('upload_convention');
+Route::post('maj_convention/{id}',[GlobalController::class,'maj_convention'])->name('maj_convention');
 require __DIR__.'/auth.php';
 Route::get('test',[GlobalController::class,'test'])->name('test');
 ?>

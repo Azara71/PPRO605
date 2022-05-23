@@ -25,6 +25,7 @@ class CreateConventionsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('tuteur_id')->nullable();
             $table->foreign('tuteur_id')->references('id')->on('users');
+            $table->foreignId('acces_id')->nullable()->constrained();
         });
     }
     

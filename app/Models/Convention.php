@@ -29,7 +29,7 @@ class Convention extends Model
         return $this->hasMany(Avenant::class,'id');
     }
     public function users(){ 
-        return $this->belongsToMany(User::class,'pivot_table_convention_user','convention_id','user_id');
+        return $this->belongsToMany(User::class,'pivot_table_convention_user');
     }
     public function tuteur(){
         return $this->hasOne(User::class,'id','tuteur_id');
