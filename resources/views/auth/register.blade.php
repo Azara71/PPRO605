@@ -209,9 +209,9 @@
 				<div class="custom-select">
 					<select id="annee_selection" name="annee">
 						<option value="" class=opt>Choisissez une année ...</option>
-						<option value="fac1">L1</option>
-						<option value="fac2">L2</option>
-						<option value="fac3">L3</option>
+						<option value="L1">L1</option>
+						<option value="L2">L2</option>
+						<option value="L3">L3</option>
 					</select>
 				</div>
 				<div class=entry>Numéro d'étudiant:</div>
@@ -268,7 +268,7 @@
 					@endforeach
 					
 				</select>
-					<input type="text" placeholder="Rentrer votre numéro d'étudiant" id="numero_etudiant" name="numero_etudiant" >
+					
 						 
 				</div>
 				<div class=entry >Faculté :</div>

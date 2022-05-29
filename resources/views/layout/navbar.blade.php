@@ -1,10 +1,16 @@
 
 <ul>
 
-  <li class={{Request::is('main')? 'active' :''}}><a href="/main">Home</a></li>
-  <li class={{Request::is('mes_conventions')? 'active' :''}}><a href="/mes_conventions">Conventions</a></li>
-  <li class={{Request::is('info_perso')? 'active' :''}}><a href="/info_perso">Informations Personnelles</a></li>
-  <li class={{Request::is('contact')? 'active' :''}}><a href="/contact">Contact</a></li>
+  <li style={{Request::is('main')? 'background-color:rgb(64,154,182);' :''}}><a href="/main">Home</a></li>
+  <li style={{Request::is('mes_conventions')? 'background-color:rgb(64,154,182);' :''}}><a href="/mes_conventions">Conventions</a></li>
+  <li style={{Request::is('info_perso')? 'background-color:rgb(64,154,182);' :''}}><a href="/info_perso">Informations Personnelles</a></li>
+  <li style={{Request::is('contact')? 'background-color:rgb(64,154,182);' :''}}><a href="/contact">Contact</a></li>
+  @if(Auth::user()->travailleur !=NULL)
+    @if(Auth::user()->travailleur->job_id==8)
+    <li style={{Request::is('liste_etudiant')? 'background-color:rgb(64,154,182);' :''}}><a href="/liste_etudiant">Liste d'étudiant</a></li>
+    @endif
+  @endif
+
   <li class=deconnexion> <form method="POST" action="{{ route('logout') }}">
                     @csrf
 

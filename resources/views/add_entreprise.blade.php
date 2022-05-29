@@ -18,7 +18,7 @@
 @include('layout.navbar')
 
 
-<form method="post" action="{{route('ajout_entreprise')}}">
+<form method="post" action="{{route('ajout_entreprise')}}" class="form_add">
 @csrf
 	<div class=container>
 		<div class=info>

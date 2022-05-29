@@ -16,6 +16,7 @@ class CreateAvenantsTable extends Migration
         Schema::create('avenants', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('chemin_avenant');
             $table->Integer('etat_avenant');
             $table->date('date_debut');
             $table->date('date_fin');

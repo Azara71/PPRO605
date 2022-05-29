@@ -128,6 +128,7 @@ class RegisteredUserController extends Controller
             $travailleur->entreprises()->attach($mon_entreprise);
          }
 
+
         if(strcmp($request->statut,'Université')==0){
             $request->validate([
                 'universite_univ'=>['required'],

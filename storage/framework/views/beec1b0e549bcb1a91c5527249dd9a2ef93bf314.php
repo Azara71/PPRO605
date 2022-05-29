@@ -1,0 +1,1 @@
+ <?php echo e(dd(session('procedure_modeles'))); ?><?php /**PATH C:\laragon\www\PPRO605\resources\views/test.blade.php ENDPATH**/ ?>

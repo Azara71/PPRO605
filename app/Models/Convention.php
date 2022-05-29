@@ -26,7 +26,7 @@ class Convention extends Model
     }
     public function avenants()
     {
-        return $this->hasMany(Avenant::class,'id');
+        return $this->hasMany(Avenant::class,'convention_id');
     }
     public function users(){ 
         return $this->belongsToMany(User::class,'pivot_table_convention_user');

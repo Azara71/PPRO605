@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\Etape;
+use App\Models\Avenant;
 use App\Models\Faculte;
 use App\Models\Etudiant;
 use App\Models\Procedure;
@@ -12,6 +13,7 @@ use App\Models\Convention;
 use App\Models\Entreprise;
 use App\Models\Université;
 use App\Models\Travailleur;
+use Illuminate\Support\Arr;
 use App\Models\Etape_modele;
 use Illuminate\Http\Request;
 use Illuminate\Support\File;
@@ -19,6 +21,7 @@ use App\Models\Procedure_modele;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -156,10 +159,22 @@ public function mes_conventions()
 }
 public function dl($id)
 {   
+        $conventions_from_user=Auth::user()->conventions;
         $file_to_dl=Convention::find($id);
-        return Storage::download($file_to_dl->chemin_convention,'convention.pdf');
-        $conventions=Auth::user()->conventions->sortBy('id');
-        return redirect()->route('mes_conventions');
+        if($file_to_dl==NULL ||$conventions_from_user->contains($file_to_dl)==false ){
+            abort(404);
+        }
+       
+        else{
+        if(Storage::exists($file_to_dl->chemin_convention)){
+            return Storage::download($file_to_dl->chemin_convention,'convention.pdf');
+            $conventions=Auth::user()->conventions->sortBy('id');
+            return redirect()->route('mes_conventions');
+        }
+        else{
+            return back();
+        }
+        }
 }
 public function edit($id)
 {
@@ -343,7 +358,18 @@ public function mes_conventions_create(){
             $array[]=$dir;
             $convention->users()->attach($dir);
         }
-                  return redirect()->route('test')->with('procedure_modeles',$travailleur_tuteur);
+        $travailleurs_gerant=DB::table('travailleurs')
+        ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
+        ->where('faculte_id','=',$faculte[0]->id)
+        ->where('job_id','=','7')
+        ->get();
+         $array=array();
+         foreach ($travailleurs_gerant as $gerant){
+            $dir=User::where('travailleur_id','=',$gerant->travailleur_id)->get();
+            $array[]=$dir;
+            $convention->users()->attach($dir);
+        }
+        return redirect()->route('mes_conventions');
 
       
      
@@ -354,6 +380,9 @@ public function mes_conventions_create(){
 
     
     public function maj_convention(Request $request,$id){
+         $request->validate([
+          'convention'=>['required|mimes:pdf'],
+         ]);
         $convention=Convention::find($id);
       
         if (Auth::user()->conventions->contains($convention) ){
@@ -396,6 +425,281 @@ public function mes_conventions_create(){
             abort(404);
         }
     }
+
+public function liste_etudiant(){
+    if(Auth::user()->travailleur == NULL ){
+        abort(404);
+    }
+    elseif(count(Auth::user()->travailleur->facultes) == 0){
+        abort(404);
+    }
+    else{
+    $fac_secretaire=Auth::user()->travailleur->facultes[0];
+    $etudiants = DB::table('users')
+    ->join('pivot_table_etudiant_faculte','pivot_table_etudiant_faculte.etudiant_id','=','users.etudiant_id')
+    ->where('pivot_table_etudiant_faculte.faculte_id','=',$fac_secretaire->id)
+    ->join('etudiants','pivot_table_etudiant_faculte.etudiant_id','=','etudiants.id')
+    ->get();
+    $info_etudiants=array();
+    foreach ($etudiants as $etudiant){
+        $info=Etudiant::find($etudiant->etudiant_id);
+        array_push($info_etudiants,$info);
+    }
+    
+
+    return view('liste_etudiant',compact('etudiants','fac_secretaire','info_etudiants'));
+    }
+}
+
+
+public function csv_to_array($path='',$delimiter=',')
+{
+     if(!file_exists($path) || !is_readable($path))
+        return $path;
+
+     $header = NULL;
+     $data = array();
+     if (($handle = fopen($path, 'r')) !== FALSE)
+    {
+        while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
+        {
+            if(!$header)
+                $header = $row;
+            else
+                $data[] = array_combine($header, $row);
+        }
+        fclose($handle);
+    }
+    return $data;
+
+}
+public function ajout_etudiants_csv(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:csv,txt',   
+        ]);
+        $file = $request->file('file'); // On récupère le champs convention
+        $filename= $file->getClientOriginalName(); //On récupère le nom original du fichier 
+        $filename=time().'.'.$filename; // On concatène son nom avec le time qui sera donc unique.
+        $path = $file->storeAs('csv',$filename); // On l'enregistre dans le fichier conventions avec son nom, il renvoi alros le chemin.
+        $complete_path=Storage::path($path);
+        $custom_array=GlobalController::csv_to_array($complete_path);
+        $data=[];
+         for ($i = 0; $i < count($custom_array); $i ++)
+         {
+           $etudiant=Etudiant::create([
+            'num_etudiant' => $custom_array[$i]["num_etudiant"],
+            'annee' => $custom_array[$i]["annee"],
+           ]);
+            $user=User::create([
+                'prenom' =>$custom_array[$i]["prenom"],
+                'nom' =>$custom_array[$i]["nom"],
+                'statut' => 'Etudiant',
+                'password'=>Hash::make($custom_array[$i]["password"]),
+                'email' => $custom_array[$i]["email"],
+                'etudiant_id'=>$etudiant->id,
+                'created_at'=>now(),
+                'acces_id'=>'1',
+            ]);
+            $auth_facultes=Auth::user()->travailleur->facultes[0];
+            $user->etudiant->facultes()->attach($auth_facultes);
+        
+         }
+
+
+
+        return back();
+}
+
+
+public function voir_avenants(Request $request,$id){
+    $conventions_from_user=Auth::user()->conventions;
+    $convention=Convention::find($id);
+
+    if($conventions_from_user->contains($convention) == false || $convention==NULL){
+        abort(404);
+    }
+    else{
+        // CHARGER LES AVENANTS DE LA CONVENTION
+        $avenants=$convention->avenants;
+        return view('avenants',compact(['convention','avenants']));
+    }
+}
+
+public function avenant(Request $request,$id){
+    $conventions_from_user=Auth::user()->conventions;
+    $avenant=Avenant::find($id);
+    $trouve=0;
+    $array=[];
+    foreach($conventions_from_user as $convention){
+    array_push($array,$convention->avenants);
+  }
+  foreach($array as $arr){
+     if($arr->contains($avenant)){
+        $trouve=1;
+     }
+
+  }
+  if($trouve==1){
+     if($avenant->procedure->num_etape<=$avenant->procedure->nombre_etapes_max){
+        return view('avenant',compact(['avenant']));
+    }
+    else{
+        abort(404);
+    }
+  }
+  else{
+      abort(404);
+  }
+ 
+
+}
+
+public function avenant_create(Request $request,$id){
+    $convention=Convention::find($id);
+    $proc=Procedure_modele::all();
+    return view('create_avenant',compact(['convention','proc']));
+}
+public function upload_avenant(Request $request,$id){
+   $request->validate([
+            'avenant' => 'required|mimes:pdf',   
+            'procedure'=>'required',
+            'date_debut'=>'required',
+            'date_fin'=>'required',
+        ]);
+    $convention=Convention::find($id);
+    $conventions_from_user=Auth::user()->conventions;
+
+    if($conventions_from_user->contains($convention)==false){
+        abort(404);
+    }
+    else{
+         $procedure_modeles=DB::table('procedure_modeles')
+        ->where('procedure_modeles.id','=',$request->procedure)
+        ->get();
+          foreach($procedure_modeles as $procedure_modele){
+           // Création d'une nouvelle procédure pour chaque modèle associé (Inutile car un seul associé)
+            $procedure=Procedure::create([
+                'num_etape'=>'1',
+                'procedure_modeles_id'=>$procedure_modele->id,
+                'nombre_etapes_max'=>$procedure_modele->nombre_etapes_max,
+                'created_at'=>now(),
+                'updated_at'=>now(),
+            ]);
+         
+            // Récupération des étapes modèles lié à la procédure modèles afin de les copier à la nouvelle procédure.
+            $etape_modeles=DB::table('etape_modeles')
+            ->join('pivot_table_modeleprocedure_etape','pivot_table_modeleprocedure_etape.etape_modele_id','=','etape_modeles.id')
+            ->join('procedure_modeles','pivot_table_modeleprocedure_etape.procedure_modeles_id','=','procedure_modeles.id')
+            ->where('procedure_modeles.id','=',$procedure_modele->id)
+            ->get(); 
+            // Création des étapes héritant des étapes modèles
+            foreach($etape_modeles as $etape_modele){
+                $etape=Etape::create([
+                    'description'=>$etape_modele->description,
+                    'etat'=>'0',
+                    'created_at'=>now(),
+                    'updated_at'=>now(),
+                    'etape_modele_id'=>$etape_modele->etape_modele_id, // BUG DE LARAVEL SUR LE LINKAGE DE L'ID ??
+                ]);
+                $procedure->etapes()->attach($etape);
+            }
+       }
+        $file = $request->file('avenant'); // On récupère le champs convention
+        $filename= $file->getClientOriginalName(); //On récupère le nom original du fichier 
+        $filename=time().'.'.$filename; // On concatène son nom avec le time qui sera donc unique.
+        $path = $file->storeAs('avenants',$filename); // On l'enregistre dans le fichier conventions avec son nom, il renvoi alros le chemin.
+
+        $avenant=Avenant::create([
+            'chemin_avenant' => $path,
+            'etat_avenant' => '0',
+            'date_debut' => $request->date_debut,
+            'date_fin' =>$request->date_fin,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'procedure_id'=>$procedure->id,
+            'convention_id'=>$convention->id,
+        ]);
+        
+
+
+
+
+        return redirect()->route('mes_conventions');
+
+
+    }
+}
+
+public function dl_avenant($id){
+    
+  $avenant=Avenant::find($id);
+  $conventions_from_user=Auth::user()->conventions;
+  $array=[];
+  $trouve=0;
+  foreach($conventions_from_user as $convention){
+    array_push($array,$convention->avenants);
+  }
+  foreach($array as $arr){
+     if($arr->contains($avenant)){
+        $trouve=1;
+     }
+
+  }
+  if($trouve==1){
+        if(Storage::exists($avenant->chemin_avenant)){
+             return Storage::download($avenant->chemin_avenant,'avenant.pdf');
+        }
+        else{
+            return back();
+        }
+  }
+  else{
+      abort(404);
+  }
+}
+public function maj_avenant(Request $request,$id){
+    $request->validate([
+        'avenant' => 'required|mimes:pdf',   
+    ]);
+  $avenant=Avenant::find($id);
+  $conventions_from_user=Auth::user()->conventions;
+  $array=[];
+  $trouve=0;
+  foreach($conventions_from_user as $convention){
+    array_push($array,$convention->avenants);
+  }
+  foreach($array as $arr){
+     if($arr->contains($avenant)){
+        $trouve=1;
+     }
+
+  }
+  if($trouve==1){
+               
+        $file = $request->file('avenant'); // On récupère le champs convention
+        $filename= $file->getClientOriginalName(); //On récupère le nom original du fichier 
+        $filename=time().'.'.$filename; // On concatène son nom avec le time qui sera donc unique.
+        $path = $file->storeAs('avenants',$filename); // On l'enregistre dans le fichier conventions avec son nom, il renvoi alros le chemin.
+        Storage::delete($convention->chemin_convention);
+        $avenant->update(['chemin_avenant'=>$path]);
+        $avenant->update(['updated_at'=>now()]);
+        if($avenant->procedure->num_etape<=$avenant->procedure->nombre_etapes_max){
+            $avenant->procedure->num_etape=$avenant->procedure->num_etape+1;
+        }
+      
+        
+        $avenant->save();
+        $avenant->procedure->save();
+
+                    
+
+  }
+  else{
+      abort(404);
+  }
+
+
+}
 
 
 

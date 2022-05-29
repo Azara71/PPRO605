@@ -15,6 +15,6 @@ class Procedure_modele extends Model
         return $this->hasMany(Procedure::class);
     }
     public function etape_modeles(){
-        return $this->hasMany(Etape_modele::class);
+        return $this->hasMany(Etape_modele::class,'id');
     }
 }

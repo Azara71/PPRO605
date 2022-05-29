@@ -30,6 +30,7 @@ class User extends Authenticatable
         'password',
         'etudiant_id',
         'travailleur_id',
+        'acces_id',
     ];
 
     /**

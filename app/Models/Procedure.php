@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Etape;
+use App\Models\Avenant;
 use App\Models\Convention;
 use App\Models\Procedure_modele;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,9 @@ class Procedure extends Model
     }
     public function procedure_modele(){
         return $this->belongsTo(Procedure_modele::class,'procedure_modeles_id');
+    }
+    public function avenant(){
+        return $this->belongsTo(Avenant::class,'id');
     }
     
 }

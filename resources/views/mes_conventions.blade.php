@@ -46,6 +46,7 @@
                             </div>
                             @else
                             Etapes : Fini
+                            
                             @endif
                             </div>
                          
@@ -54,7 +55,16 @@
                                <div class=voir onclick="location.href='mes_conventions/edit_convention/{{$convention->id}}'">
                                    @include('svg.stylo')
                                 </div>
-                            @endif
+                                @else 
+                                 <div class=ajout_avenant onclick="location.href='mes_conventions/voir_avenants/{{$convention->id}}'">
+                                 Voir les avenants
+                                   @include('svg.add_etudiant')
+                                </div>
+                                
+
+
+
+                                @endif
                                <div class=voir onclick="location.href='mes_conventions/dl/{{$convention->id}}'">
 	                                @include('svg.dl')
                                </div>
