@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class=connexion>
-                <a href="http://ppro605.test/login" class=texte_connexion>
+                <a href="login" class=texte_connexion>
                     Se connecter
                 </a>
             </div>

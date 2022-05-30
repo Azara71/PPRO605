@@ -701,6 +701,57 @@ public function maj_avenant(Request $request,$id){
 
 }
 
+public function procedures(Request $request){
+    $procedures=Procedure_modele::all();
+    return view('procedures',compact('procedures'));
+}
+
+public function creer_procedure(Request $request){
+    $etape_modeles=Etape_modele::all();
+    return view('creer_procedure',compact('etape_modeles'));
+}
+
+public function ajout_procedure(Request $request){
+    $array=[];
+    $array_of_select=[];
+    $array_of_collection=[]; // Collection Eloquant de modèle d'étapes
+    array_push($array_of_select,$request->select1);
+    array_push($array_of_select,$request->select2);
+    array_push($array_of_select,$request->select3);
+    array_push($array_of_select,$request->select4);
+    array_push($array_of_select,$request->select5);
+    array_push($array_of_select,$request->select6);
+    array_push($array_of_select,$request->select7);
+    array_push($array_of_select,$request->select8);
+    array_push($array_of_select,$request->select9);
+    array_push($array_of_select,$request->select10);
+    array_push($array_of_select,$request->select11);
+    array_push($array_of_select,$request->select12);
+    array_push($array_of_select,$request->select13);
+    array_push($array_of_select,$request->select14);
+    array_push($array_of_select,$request->select15);
+    // On insère chaque modèle d'étape choisit envoyé dans la requête HTTP.
+     $nb_etapes=0;
+    foreach($array_of_select as $select){
+        if($select!=NULL){
+         $nb_etapes++;
+         array_push($array_of_collection,Etape_modele::find($select));   
+        }
+    }
+    // On se créer un modèle de procédure.
+    $procedure=Procedure_modele::create([
+        'nom_procedure'=>$request->name,
+        'nombre_etapes_max'=>$nb_etapes,
+    ]);
+
+    foreach($array_of_collection as $etape_modele){
+        $etape_modele->procedures()->attach($procedure->id);
+    }
+
+  
+    return redirect()->route('procedures');
+
+}
 
 
 

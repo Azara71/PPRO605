@@ -11,8 +11,25 @@ body{
     align-items:center;
     justify-content: center;
 
+}
+.import_button{
 
+    
+  
+    height:35px;
+    width:100%;
+    text-align:center;
+    
+    color:white;
+    background-color: grey;
+     border-radius: 50px;
 
+}
+.import_button:hover{
+
+    
+  
+  cursor:pointer;
 }
 .info{
     width:80%;

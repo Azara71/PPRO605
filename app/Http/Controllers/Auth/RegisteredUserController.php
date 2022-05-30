@@ -74,8 +74,9 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'statut'=>$request->statut,
                 'etudiant_id'=>$student->id,
-                'access_id'=>'1',
+                'acces_id'=>'1',
             ]);
+            
             $ma_fac=Faculte::find($request->faculte);
             $student->facultes()->attach($ma_fac);
         };

@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Procedure_modele extends Model
 {
+    protected $fillable=[
+        'nom_procedure',
+        'nombre_etapes_max',
+    ];
     use HasFactory;
 
     public function procedures(){

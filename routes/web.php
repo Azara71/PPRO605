@@ -21,7 +21,7 @@ use App\Http\Controllers\GlobalController;
 
 Route::get('/', [GlobalController::class,'accueil']);
 
-Route::get('/accueil', [GlobalController::class,'accueil']);
+Route::get('/accueil', [GlobalController::class,'accueil'])->name('accueil');
 
 Route::get('/register', [GlobalController::class,'register']);
 Route::get('get-facs', [GlobalController::class, 'getFacs'])->name('getFacs'); //Route permettant d'obtenir le selection dépendant , il prend l'url en get "get-facs" et return un json contenant les facultés liés à l'université choisit
@@ -55,6 +55,10 @@ Route::post('/maj_avenant/{id}',[GlobalController::class,'maj_avenant'])->name('
 
 Route::get('get-etapes',[GlobalController::class, 'getEtapes'])->name('getEtapes'); 
 Route::get('get-tuteurs',[GlobalController::class,'getTuteurs'])->name('getTuteurs');
+
+Route::get('procedures',[GlobalController::class,'procedures'])->name('procedures');
+Route::get('creer_procedure',[GlobalController::class,'creer_procedure'])->name('creer_procedure');
+Route::post('ajout_procedure',[GlobalController::class,'ajout_procedure'])->name('ajout_procedure');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
