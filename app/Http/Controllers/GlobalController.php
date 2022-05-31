@@ -381,7 +381,7 @@ public function mes_conventions_create(){
     
     public function maj_convention(Request $request,$id){
          $request->validate([
-          'convention'=>['required|mimes:pdf'],
+          'convention'=>['required','mimes:pdf'],
          ]);
         $convention=Convention::find($id);
       
@@ -659,7 +659,7 @@ public function dl_avenant($id){
 }
 public function maj_avenant(Request $request,$id){
     $request->validate([
-        'avenant' => 'required|mimes:pdf',   
+        'avenant' => 'required','mimes:pdf',   
     ]);
   $avenant=Avenant::find($id);
   $conventions_from_user=Auth::user()->conventions;
