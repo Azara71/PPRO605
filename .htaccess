@@ -1,0 +1,6 @@
+# On démarre le moteur de réécriture d'URL
+RewriteEngine On
+# Si ça commence déjà par exemple/public/, on ne fait rien
+RewriteRule ^PPRO605/public/ - [L]
+# On redirige toutes les pages vers le répertoire public du projet Laravel
+RewriteRule .* /~lema0065/PPRO605/public/$0 [L,R=permanent]
