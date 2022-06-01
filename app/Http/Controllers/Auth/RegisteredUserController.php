@@ -74,7 +74,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'statut'=>$request->statut,
                 'etudiant_id'=>$student->id,
-                'acces_id'=>'1',
+                'acces_id'=>'1', // Accord des accès
             ]);
             
             $ma_fac=Faculte::find($request->faculte);
@@ -106,7 +106,7 @@ class RegisteredUserController extends Controller
                 'statut'=>$request->statut,
                 'travailleur_id'=>$travailleur->id,
             ]);
-            switch($request->fonction){
+            switch($request->fonction){// Accord des accès
             case '1':
              $user->acces_id = '3';
              $user->save();
@@ -148,7 +148,7 @@ class RegisteredUserController extends Controller
                 'travailleur_id'=>$travailleur->id,
                 
             ]);
-            switch($request->fonction_univ){
+            switch($request->fonction_univ){ // Accord des accès
             case '1':
              $user->acces_id = '3';
              $user->save();

@@ -30,17 +30,16 @@ class GlobalController extends Controller{
     /*
     * __construct retournant le middleware Auth, permettant de faire un redirect sur la page login
     */
-    public function __construct(){
+    public function __construct(){ 
         $this->middleware('auth')->except(['accueil','getFacs','getJobs','getEtapes','getTuteurs']);
     }
- 
+    // Renvoi la vue accueil lorsqu'accéder en GET par /accueil
     public function accueil()
     {  
-        $test=Procedure::find(1);
-        return view('accueil',compact('test'));
+        return view('accueil');
     }
     
-    // Controle de l'enregistrement
+    // Renvoi la vue d'enregistrement avec les différentes universités / entreprises / jobs existants 
     public function register()
     {
         $univs=Université::all();
@@ -48,6 +47,7 @@ class GlobalController extends Controller{
         $jobs=Job::all();
         return view('register',compact('univs','entreprise','jobs'));
     } 
+    // Renvoi sous format json toutes les facultés affiliés à l'université passé en protocole HTTP grâce à de l'Ajax 
     public function getFacs(Request $request)
     {
         $facs=Faculte::where('université_id',$request->univ_id)->get(); // Recupération de toutes les facultés dont la clef étrangère est égale à univ_id, la clef donné par la requête Ajax.
@@ -102,11 +102,12 @@ public function info_perso()
     $entreprise=Entreprise::all();
     return view('info_perso',compact('entreprise'));
 }
-public function modify(Request $request){
+
+public function modify(Request $request){ //Reçoit une requête http recevant les différentes informations modifiés par l'utilisateur (Champs du formulmaire)
     
-    $user = Auth::user();
+    $user = Auth::user(); // On récupère l'utilisateur lié à l'Auth (façade)
     if($request->prenom!=NULL){
-        $user->update(['prenom'=>$request->prenom]);
+        $user->update(['prenom'=>$request->prenom]); // On update le prénom, nom, 
     }
     if($request->nom!=NULL){
         $user->update(['nom'=>$request->nom]);
@@ -123,19 +124,19 @@ public function modify(Request $request){
         $user->travailleur->job=$job_to_attach;
     }
     $user->save();
-    return redirect()->route('info_perso');
+    return redirect()->route('info_perso'); // On renvoi la page d'info perso par la route affiliée.
 }
 
 public function add_entreprise(Request $request){
     return view('add_entreprise');
 }
 public function ajout_entreprise(Request $request){
-    $request->validate([
+    $request->validate([ // Vérifie la validité des champs
         'num_siret'=>['required'],
         'nom_entreprise'=>['required','string','max:255'],
         'adresse_entreprise'=>['required','string','max:255'],
     ]);
-    $entreprise=Entreprise::create([
+    $entreprise=Entreprise::create([ // Créer une entreprise.
         'num_siret'=>$request->num_siret,
         'nom_entreprise'=>$request->nom_entreprise,
         'adresse_entreprise'=>$request->adresse_entreprise,
@@ -153,20 +154,20 @@ public function mes_conventions()
         ->where('users.id','=',Auth::user()->id)
         ->paginate(3);
         */
-    $conventions=Auth::user()->conventions->sortBy('id');
+    $conventions=Auth::user()->conventions->sortBy('id'); // Renvoi toutes les conventions lié à l'utilisateur trié par ID croissant.
     
         return view('mes_conventions',compact('conventions'));
 }
 public function dl($id)
 {   
-        $conventions_from_user=Auth::user()->conventions;
-        $file_to_dl=Convention::find($id);
-        if($file_to_dl==NULL ||$conventions_from_user->contains($file_to_dl)==false ){
+        $conventions_from_user=Auth::user()->conventions; // Permet de récupérer toutes les collections de conventions
+        $file_to_dl=Convention::find($id); // Permet de récupérer la convention désirée
+        if($file_to_dl==NULL ||$conventions_from_user->contains($file_to_dl)==false ){ // Si la convention désirée est bien existante et lié à l'Auth on DL, sinon on renvoi une error 404
             abort(404);
         }
        
         else{
-        if(Storage::exists($file_to_dl->chemin_convention)){
+        if(Storage::exists($file_to_dl->chemin_convention)){ // Si dans storage, le fichier existe, on le DL.
             return Storage::download($file_to_dl->chemin_convention,'convention.pdf');
             $conventions=Auth::user()->conventions->sortBy('id');
             return redirect()->route('mes_conventions');
@@ -183,8 +184,8 @@ public function edit($id)
      ->where('conventions.id','=',$id)
      ->join('pivot_table_convention_user','conventions.id','=','pivot_table_convention_user.convention_id')
      ->where('pivot_table_convention_user.user_id','=',Auth::user()->id)
-     ->get();
-     if(count($convention)>0){
+     ->get(); // On récupère la convention lié à l'Auth par son ID.
+     if(count($convention)>0){ // Si elle existe bien, on trouve sa procédure, puis toutes les étapes liés à cette procédure.
       
         $procedure=Procedure::find($convention[0]->procedure_id);
         if($procedure != NULL){
@@ -196,8 +197,8 @@ public function edit($id)
             ->get();
         }
 
-        if($procedure->num_etape<=$procedure->nombre_etapes_max){
-            $etape_en_cours=$etapes[$procedure->num_etape-1];
+        if($procedure->num_etape<=$procedure->nombre_etapes_max){ 
+            $etape_en_cours=$etapes[$procedure->num_etape-1]; // Evite une erreur
             $etape_en_cours_modele=Etape_modele::find($etape_en_cours->etape_modele_id);
             $etape_acces=$etape_en_cours_modele->acces;
         }
@@ -221,7 +222,7 @@ public function main()
 }
 
 public function mes_conventions_create(){
-    if(Auth::user()->statut=='Etudiant'){
+    if(Auth::user()->statut=='Etudiant'){ // Permet de vérifier que l'Auth est bien un etudiant, sinon la page est inacessible.
         $proc=Procedure_modele::all();
         $entreprise=Entreprise::all();
         return view('create_convention',compact(['proc','entreprise']));
@@ -231,7 +232,7 @@ public function mes_conventions_create(){
     }
 }
 
-    public function getEtapes(Request $request)
+    public function getEtapes(Request $request) // Récupère les étapes de la procedure demandée .
     {
       
         $etapes=DB::table('etape_modeles')
@@ -243,7 +244,7 @@ public function mes_conventions_create(){
             return response()->json($etapes); // EVITE ERROR 500
         }
     }
-  public function getTuteurs(Request $request)
+  public function getTuteurs(Request $request) // Récupère toutes les travailleurs d'une entreprise (potentiel tuteurs)
     {
         $tuteurs=DB::table('users')
         ->join('travailleurs','travailleurs.id','=','users.travailleur_id')
@@ -260,16 +261,16 @@ public function mes_conventions_create(){
 
     public function upload_convention(Request $request)
     {
-        $request->validate([
+        $request->validate([ // Validation des champs
             'convention' => 'required|mimes:pdf',
             'tuteur_selection' => 'required',
             'entreprise_selection' =>'required',
         ]);
-        $procedure_modeles=DB::table('procedure_modeles')
+        $procedure_modeles=DB::table('procedure_modeles') // On récupère les procédures modèles (Comme on utilise ->where & -> get , on a une collection, obligé de foreach dessus.)
         ->where('procedure_modeles.id','=',$request->procedure)
         ->get();
 
-       foreach($procedure_modeles as $procedure_modele){
+       foreach($procedure_modeles as $procedure_modele){ // Pour la procédure modèle à la procédure
            // Création d'une nouvelle procédure pour chaque modèle associé (Inutile car un seul associé)
             $procedure=Procedure::create([
                 'num_etape'=>'1',
@@ -294,7 +295,7 @@ public function mes_conventions_create(){
                     'updated_at'=>now(),
                     'etape_modele_id'=>$etape_modele->etape_modele_id, // BUG DE LARAVEL SUR LE LINKAGE DE L'ID ??
                 ]);
-                $procedure->etapes()->attach($etape);
+                $procedure->etapes()->attach($etape); // On attache l'étape crée à la procédure
             }
        }
        
@@ -305,7 +306,7 @@ public function mes_conventions_create(){
         $filename=time().'.'.$filename; // On concatène son nom avec le time qui sera donc unique.
         $path = $file->storeAs('conventions',$filename); // On l'enregistre dans le fichier conventions avec son nom, il renvoi alros le chemin.
         $travailleur_tuteur=Travailleur::find($request->tuteur_selection); // On trouve le travailleur grâce à l'id passé par le formulaire html
-        $convention=Convention::create([
+        $convention=Convention::create([ // On crée une convention avec les idfférents champs
                 'description'=>$request->description,
                 'chemin_convention'=>$path,
                 'date_creation'=>now(),
@@ -320,8 +321,8 @@ public function mes_conventions_create(){
         $convention->users()->attach($travailleur_tuteur->user);
         $convention->users()->attach(Auth::user());
         
-      
-       $directeurs=DB::table('travailleurs')
+      // On attach les directeurs de l'entreprise à la convention
+       $directeurs=DB::table('travailleurs') 
         ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
         ->where('entreprise_id','=',$request->entreprise_selection)
         ->where('job_id','=','2')
@@ -333,7 +334,7 @@ public function mes_conventions_create(){
             $convention->users()->attach($sec);
         }
 
-
+        // On attache les secrétaires de la faculté de l'élève à la convention.
         $faculte=Auth::user()->etudiant->facultes;
         $travailleurs_secretaires=DB::table('travailleurs')
         ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
@@ -346,7 +347,7 @@ public function mes_conventions_create(){
             $array[]=$sec;
             $convention->users()->attach($sec);
         }
-
+        // On cherche tous les directeurs de la faculté, et on les attaches à la convention
          $travailleurs_directeur=DB::table('travailleurs')
         ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
         ->where('faculte_id','=',$faculte[0]->id)
@@ -358,6 +359,7 @@ public function mes_conventions_create(){
             $array[]=$dir;
             $convention->users()->attach($dir);
         }
+        // On cherche le gérant de Licence / tuteur universitaire, qu'on attache
         $travailleurs_gerant=DB::table('travailleurs')
         ->join('pivot_table_ent_trav_fac','pivot_table_ent_trav_fac.travailleur_id','=','travailleurs.id')
         ->where('faculte_id','=',$faculte[0]->id)
@@ -369,7 +371,7 @@ public function mes_conventions_create(){
             $array[]=$dir;
             $convention->users()->attach($dir);
         }
-        return redirect()->route('mes_conventions');
+        return redirect()->route('mes_conventions'); // On renvoi la page des conventions
 
       
      
@@ -378,14 +380,14 @@ public function mes_conventions_create(){
         return view('test');
     }
 
-    
-    public function maj_convention(Request $request,$id){
+     
+    public function maj_convention(Request $request,$id){ // Mise à jour de la convention numéro {id}
          $request->validate([
           'convention'=>['required','mimes:pdf'],
          ]);
         $convention=Convention::find($id);
       
-        if (Auth::user()->conventions->contains($convention) ){
+        if (Auth::user()->conventions->contains($convention) ){ // Toujours vérifier que l'auth est lié à la convention (Eviter les pénétrations par URL)
       
         $etape=$convention->procedure->etapes[$convention->procedure->num_etape-1];
                 
@@ -452,7 +454,7 @@ public function liste_etudiant(){
 }
 
 
-public function csv_to_array($path='',$delimiter=',')
+public function csv_to_array($path='',$delimiter=',') // Permet de lire un csv en read, et de le transférer en tableau 
 {
      if(!file_exists($path) || !is_readable($path))
         return $path;
@@ -484,7 +486,7 @@ public function ajout_etudiants_csv(Request $request){
         $complete_path=Storage::path($path);
         $custom_array=GlobalController::csv_to_array($complete_path);
         $data=[];
-         for ($i = 0; $i < count($custom_array); $i ++)
+         for ($i = 0; $i < count($custom_array); $i ++) // Pour chaque élément du tableau, on crée un étudiant, et un user, puis on lit l'user à l'étudiant créer, et on lui attach la faculté du secrétaire.
          {
            $etudiant=Etudiant::create([
             'num_etudiant' => $custom_array[$i]["num_etudiant"],
