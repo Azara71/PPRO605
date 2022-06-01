@@ -31,9 +31,9 @@ Route::get('get-jobs', [GlobalController::class, 'getJobs'])->name('getJobs'); /
 
 Route::get('/connexion', [GlobalController::class,'connexion']);
 
-Route::get('/main', [GlobalController::class,'main']);
+Route::get('/main', [GlobalController::class,'main'])->name('main');
 
-Route::get('/contact', [GlobalController::class,'contact']);
+Route::get('/contact', [GlobalController::class,'contact'])->name('contact');
 
 Route::get('/info_perso', [GlobalController::class,'info_perso'])->name('info_perso');
 Route::post('/modify',[GlobalController::class,'modify'])->name('modify');

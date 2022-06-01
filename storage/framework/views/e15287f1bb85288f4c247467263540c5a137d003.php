@@ -34,7 +34,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                        
                 </div>
-       <form method="POST" action="/public/maj_convention/<?php echo e($convention[0]->id); ?>" enctype="multipart/form-data">
+       <form method="POST" action="<?php echo e(route('maj_convention',[$convention[0]->id])); ?>" enctype="multipart/form-data">
 			<?php echo csrf_field(); ?>
 			<div class=container>
                

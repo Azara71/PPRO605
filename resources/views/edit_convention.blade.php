@@ -33,7 +33,7 @@
                     @endforeach
                        
                 </div>
-       <form method="POST" action="/public/maj_convention/{{$convention[0]->id}}" enctype="multipart/form-data">
+       <form method="POST" action="{{route('maj_convention',[$convention[0]->id])}}" enctype="multipart/form-data">
 			@csrf
 			<div class=container>
                

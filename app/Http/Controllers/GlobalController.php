@@ -412,7 +412,7 @@ public function mes_conventions_create(){
 
 
             if($convention->procedure->num_etape<$convention->procedure->nombre_etapes_max){
-                return redirect()->route('test')->with('procedure_modeles',$etape->etape_modele->acces);
+                return redirect()->back();
             }
             else{
                 return redirect()->route('mes_conventions');
@@ -690,7 +690,7 @@ public function maj_avenant(Request $request,$id){
         
         $avenant->save();
         $avenant->procedure->save();
-
+        return redirect()->back();
                     
 
   }

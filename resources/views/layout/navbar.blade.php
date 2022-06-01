@@ -1,14 +1,14 @@
 
 <ul>
 
-  <li style={{Request::is('main')? 'background-color:rgb(64,154,182);' :''}}><a href="/public/main">Home</a></li>
-  <li style={{Request::is('mes_conventions')? 'background-color:rgb(64,154,182);' :''}}><a href="/public/mes_conventions">Conventions</a></li>
-  <li style={{Request::is('info_perso')? 'background-color:rgb(64,154,182);' :''}}><a href="/public/info_perso">Informations Personnelles</a></li>
-  <li style={{Request::is('contact')? 'background-color:rgb(64,154,182);' :''}}><a href="/public/contact">Contact</a></li>
+  <li style={{Request::is('main')? 'background-color:rgb(64,154,182);' :''}}><a href="{{route('main')}}">Home</a></li>
+  <li style={{Request::is('mes_conventions')? 'background-color:rgb(64,154,182);' :''}}><a href="{{route('mes_conventions')}}">Conventions</a></li>
+  <li style={{Request::is('info_perso')? 'background-color:rgb(64,154,182);' :''}}><a href="{{route('info_perso')}}">Informations Personnelles</a></li>
+  <li style={{Request::is('contact')? 'background-color:rgb(64,154,182);' :''}}><a href="{{route('contact')}}">Contact</a></li>
   @if(Auth::user()->travailleur !=NULL)
     @if(Auth::user()->travailleur->job_id==8)
-    <li style={{Request::is('liste_etudiant')? 'background-color:rgb(64,154,182);' :''}}><a href="/public/liste_etudiant">Liste d'étudiant</a></li>
-    <li style={{Request::is('procedures') || Request::is('creer_procedure')? 'background-color:rgb(64,154,182);' :''}}><a href="/public/procedures">Procedures de ma faculté</a></li>
+    <li style={{Request::is('liste_etudiant')? 'background-color:rgb(64,154,182);' :''}}><a href="{{route('liste_etudiant')}}">Liste d'étudiant</a></li>
+    <li style={{Request::is('procedures') || Request::is('creer_procedure')? 'background-color:rgb(64,154,182);' :''}}><a href="{{route('procedures')}}">Procedures de ma faculté</a></li>
     @endif
   @endif
   

@@ -1,14 +1,14 @@
 
 <ul>
 
-  <li style=<?php echo e(Request::is('main')? 'background-color:rgb(64,154,182);' :''); ?>><a href="/public/main">Home</a></li>
-  <li style=<?php echo e(Request::is('mes_conventions')? 'background-color:rgb(64,154,182);' :''); ?>><a href="/public/mes_conventions">Conventions</a></li>
-  <li style=<?php echo e(Request::is('info_perso')? 'background-color:rgb(64,154,182);' :''); ?>><a href="/public/info_perso">Informations Personnelles</a></li>
-  <li style=<?php echo e(Request::is('contact')? 'background-color:rgb(64,154,182);' :''); ?>><a href="/public/contact">Contact</a></li>
+  <li style=<?php echo e(Request::is('main')? 'background-color:rgb(64,154,182);' :''); ?>><a href="<?php echo e(route('main')); ?>">Home</a></li>
+  <li style=<?php echo e(Request::is('mes_conventions')? 'background-color:rgb(64,154,182);' :''); ?>><a href="<?php echo e(route('mes_conventions')); ?>">Conventions</a></li>
+  <li style=<?php echo e(Request::is('info_perso')? 'background-color:rgb(64,154,182);' :''); ?>><a href="<?php echo e(route('info_perso')); ?>">Informations Personnelles</a></li>
+  <li style=<?php echo e(Request::is('contact')? 'background-color:rgb(64,154,182);' :''); ?>><a href="<?php echo e(route('contact')); ?>">Contact</a></li>
   <?php if(Auth::user()->travailleur !=NULL): ?>
     <?php if(Auth::user()->travailleur->job_id==8): ?>
-    <li style=<?php echo e(Request::is('liste_etudiant')? 'background-color:rgb(64,154,182);' :''); ?>><a href="/public/liste_etudiant">Liste d'étudiant</a></li>
-    <li style=<?php echo e(Request::is('procedures') || Request::is('creer_procedure')? 'background-color:rgb(64,154,182);' :''); ?>><a href="/public/procedures">Procedures de ma faculté</a></li>
+    <li style=<?php echo e(Request::is('liste_etudiant')? 'background-color:rgb(64,154,182);' :''); ?>><a href="<?php echo e(route('liste_etudiant')); ?>">Liste d'étudiant</a></li>
+    <li style=<?php echo e(Request::is('procedures') || Request::is('creer_procedure')? 'background-color:rgb(64,154,182);' :''); ?>><a href="<?php echo e(route('procedures')); ?>">Procedures de ma faculté</a></li>
     <?php endif; ?>
   <?php endif; ?>
   

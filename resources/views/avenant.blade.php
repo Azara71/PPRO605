@@ -37,7 +37,7 @@
                     @endforeach
                 </div>
     
-     <form method="POST" action="/maj_avenant/{{$avenant->id}}" enctype="multipart/form-data">
+     <form method="POST" action="{{route('maj_avenant',[$avenant->id])}}" enctype="multipart/form-data">
 			@csrf
 			<div class=container>
                
